@@ -1,0 +1,4 @@
+https://www.cs.hmc.edu/~cs5grad/cs5/hmmm/documentation/documentation.html#Machine
+
+Hmmm simulates a computer that has sixteen 16-bit registers and 256 16-bit words of memory. The program is loaded into memory starting at location 0, so a program 12 lines long has 244 free words of memory starting at location 12 (locations 0 through 11 are occupied by the program's instructions). The program counter starts at location 0 and is incremented by 1 each cycle. It can also be redirected using the various jump commands. Each cycle, the simulator reads the instruction at the memory location pointed to by the program counter and executes it. This continues until it executes a halt instruction.
+15 of the 16 registers are interchangeable from a hardware standpoint (although refer to the conventions below). The only special register is r0. When used as a source operand, r0 always provides a zero; when used as a destination it discards the result.
