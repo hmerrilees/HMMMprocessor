@@ -21,9 +21,6 @@ VL_ATTR_COLD void Vhmmm___024root___eval_initial(Vhmmm___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vhmmm___024root___eval_initial\n"); );
     // Body
     Vhmmm___024root___eval_initial__TOP(vlSelf);
-    vlSelf->__Vm_traceActivity[2U] = 1U;
-    vlSelf->__Vm_traceActivity[1U] = 1U;
-    vlSelf->__Vm_traceActivity[0U] = 1U;
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = vlSelf->clk;
     vlSelf->__Vtrigprevexpr___TOP__reset__0 = vlSelf->reset;
 }
@@ -108,6 +105,9 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
     vlSelf->__VdfgTmp_h79120594__0 = vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
         [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
                   >> 4U))];
+    vlSelf->__VdfgTmp_h79043d9e__0 = vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
+        [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                  >> 8U))];
     vlSelf->hmmm__DOT__instruction_type = ((0x8000U 
                                             & (IData)(vlSelf->hmmm__DOT__Instr))
                                             ? ((0x4000U 
@@ -527,37 +527,88 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
                                                                  ? 2U
                                                                  : 0U))))))))))))))));
     VL_WRITEF("\n\n");
-    vlSelf->hmmm__DOT__RegWrite = 0U;
-    vlSelf->hmmm__DOT__RegSrc = 0U;
     vlSelf->hmmm__DOT__MemAdrSrc = 0U;
+    vlSelf->hmmm__DOT__MemDataSrc = 0U;
+    vlSelf->hmmm__DOT__MemWrite = 0U;
     vlSelf->hmmm__DOT__PcSrc = 0U;
+    vlSelf->hmmm__DOT__RegSrc = 0U;
+    vlSelf->hmmm__DOT__RegWrite = 0U;
     vlSelf->hmmm__DOT__aluop = 0U;
-    if (VL_UNLIKELY((5U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("LOADR\n");
-        vlSelf->hmmm__DOT__RegWrite = 1U;
-        vlSelf->hmmm__DOT__RegSrc = 1U;
+    if (((((((((5U == vlSelf->hmmm__DOT__instruction_type) 
+               | (3U == vlSelf->hmmm__DOT__instruction_type)) 
+              | (4U == vlSelf->hmmm__DOT__instruction_type)) 
+             | (9U == vlSelf->hmmm__DOT__instruction_type)) 
+            | (0x12U == vlSelf->hmmm__DOT__instruction_type)) 
+           | (0x11U == vlSelf->hmmm__DOT__instruction_type)) 
+          | (0x17U == vlSelf->hmmm__DOT__instruction_type)) 
+         | (0xaU == vlSelf->hmmm__DOT__instruction_type))) {
+        if (VL_UNLIKELY((5U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("LOADR\n");
+            vlSelf->hmmm__DOT__MemAdrSrc = 1U;
+            vlSelf->hmmm__DOT__RegSrc = 1U;
+            vlSelf->hmmm__DOT__RegWrite = 1U;
+        } else if (VL_UNLIKELY((3U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("WRITE\n");
+            vlSelf->hmmm__DOT__MemAdrSrc = 1U;
+        } else if (VL_UNLIKELY((4U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("SETN\n");
+            vlSelf->hmmm__DOT__MemAdrSrc = 1U;
+            vlSelf->hmmm__DOT__RegWrite = 1U;
+        } else if (VL_UNLIKELY((9U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("LOADN\n");
+            vlSelf->hmmm__DOT__MemAdrSrc = 0U;
+            vlSelf->hmmm__DOT__RegSrc = 1U;
+            vlSelf->hmmm__DOT__RegWrite = 1U;
+        } else if (VL_UNLIKELY((0x12U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("JUMPN\n");
+            vlSelf->hmmm__DOT__PcSrc = 2U;
+        } else if (VL_UNLIKELY((0x11U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("JUMPR\n");
+            vlSelf->hmmm__DOT__PcSrc = 3U;
+        } else if ((0x17U == vlSelf->hmmm__DOT__instruction_type)) {
+            VL_WRITEF("CALLN\n");
+            vlSelf->hmmm__DOT__PcSrc = 3U;
+            vlSelf->hmmm__DOT__RegSrc = 2U;
+        } else {
+            VL_WRITEF("STOREN\n");
+            vlSelf->hmmm__DOT__MemDataSrc = 1U;
+            vlSelf->hmmm__DOT__MemWrite = 1U;
+        }
+    } else if (VL_UNLIKELY((6U == vlSelf->hmmm__DOT__instruction_type))) {
+        VL_WRITEF("$STORER\n");
         vlSelf->hmmm__DOT__MemAdrSrc = 1U;
-    } else if (VL_UNLIKELY((3U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("WRITE\n");
-        vlSelf->hmmm__DOT__MemAdrSrc = 1U;
-    } else if (VL_UNLIKELY((4U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("SETN\n");
-        vlSelf->hmmm__DOT__RegWrite = 1U;
-        vlSelf->hmmm__DOT__RegSrc = 0U;
-        vlSelf->hmmm__DOT__MemAdrSrc = 1U;
-    } else if (VL_UNLIKELY((9U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("LOADN\n");
-        vlSelf->hmmm__DOT__RegWrite = 1U;
-        vlSelf->hmmm__DOT__RegSrc = 1U;
-        vlSelf->hmmm__DOT__MemAdrSrc = 0U;
-    } else if (VL_UNLIKELY((0x12U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("JUMPN\n");
-        vlSelf->hmmm__DOT__PcSrc = 1U;
-    } else if (VL_UNLIKELY((0x17U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("CALLN\n");
+        vlSelf->hmmm__DOT__MemDataSrc = 1U;
+        vlSelf->hmmm__DOT__MemWrite = 1U;
     } else if ((0xcU == vlSelf->hmmm__DOT__instruction_type)) {
         vlSelf->hmmm__DOT__aluop = 0U;
     }
+    vlSelf->hmmm__DOT__datapath__DOT__PcNext = ((IData)(vlSelf->reset)
+                                                 ? 0U
+                                                 : 
+                                                (0xffU 
+                                                 & ((2U 
+                                                     & (IData)(vlSelf->hmmm__DOT__PcSrc))
+                                                     ? 
+                                                    ((1U 
+                                                      & (IData)(vlSelf->hmmm__DOT__PcSrc))
+                                                      ? 
+                                                     (0x1feU 
+                                                      & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                                                         << 1U))
+                                                      : 
+                                                     (((0U 
+                                                        == 
+                                                        (0xfU 
+                                                         & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                                                            >> 8U)))
+                                                        ? 0U
+                                                        : 
+                                                       (0xffU 
+                                                        & (IData)(vlSelf->__VdfgTmp_h79043d9e__0))) 
+                                                      << 1U))
+                                                     : 
+                                                    ((IData)(2U) 
+                                                     + (IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc)))));
 }
 
 VL_ATTR_COLD void Vhmmm___024root___eval_stl(Vhmmm___024root* vlSelf) {
@@ -572,6 +623,21 @@ VL_ATTR_COLD void Vhmmm___024root___eval_stl(Vhmmm___024root* vlSelf) {
         vlSelf->__Vm_traceActivity[0U] = 1U;
     }
 }
+
+#ifdef VL_DEBUG
+VL_ATTR_COLD void Vhmmm___024root___dump_triggers__ico(Vhmmm___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vhmmm__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vhmmm___024root___dump_triggers__ico\n"); );
+    // Body
+    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
+        VL_DBG_MSGF("         No triggers active\n");
+    }
+    if ((1ULL & vlSelf->__VicoTriggered.word(0U))) {
+        VL_DBG_MSGF("         'ico' region trigger index 0 is active: Internal 'ico' trigger - first iteration\n");
+    }
+}
+#endif  // VL_DEBUG
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vhmmm___024root___dump_triggers__act(Vhmmm___024root* vlSelf) {
@@ -617,13 +683,16 @@ VL_ATTR_COLD void Vhmmm___024root___ctor_var_reset(Vhmmm___024root* vlSelf) {
     vlSelf->clk = VL_RAND_RESET_I(1);
     vlSelf->reset = VL_RAND_RESET_I(1);
     vlSelf->hmmm__DOT__Instr = VL_RAND_RESET_I(16);
+    vlSelf->hmmm__DOT__RegSrc = VL_RAND_RESET_I(2);
+    vlSelf->hmmm__DOT__PcSrc = VL_RAND_RESET_I(2);
+    vlSelf->hmmm__DOT__MemWrite = VL_RAND_RESET_I(1);
     vlSelf->hmmm__DOT__RegWrite = VL_RAND_RESET_I(1);
-    vlSelf->hmmm__DOT__RegSrc = VL_RAND_RESET_I(1);
     vlSelf->hmmm__DOT__MemAdrSrc = VL_RAND_RESET_I(1);
-    vlSelf->hmmm__DOT__PcSrc = VL_RAND_RESET_I(1);
+    vlSelf->hmmm__DOT__MemDataSrc = VL_RAND_RESET_I(1);
     vlSelf->hmmm__DOT__aluop = 0;
     vlSelf->hmmm__DOT__instruction_type = 0;
     vlSelf->hmmm__DOT__datapath__DOT__Pc = VL_RAND_RESET_I(8);
+    vlSelf->hmmm__DOT__datapath__DOT__PcNext = VL_RAND_RESET_I(8);
     vlSelf->hmmm__DOT__datapath__DOT__SrcA = VL_RAND_RESET_I(16);
     for (int __Vi0 = 0; __Vi0 < 256; ++__Vi0) {
         vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM[__Vi0] = VL_RAND_RESET_I(16);
@@ -631,6 +700,7 @@ VL_ATTR_COLD void Vhmmm___024root___ctor_var_reset(Vhmmm___024root* vlSelf) {
     for (int __Vi0 = 0; __Vi0 < 16; ++__Vi0) {
         vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[__Vi0] = VL_RAND_RESET_I(16);
     }
+    vlSelf->__VdfgTmp_h79043d9e__0 = 0;
     vlSelf->__VdfgTmp_h79120594__0 = 0;
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__reset__0 = VL_RAND_RESET_I(1);

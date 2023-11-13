@@ -42,7 +42,8 @@ module hmmm (
     reset
 );
   logic [15:0] Instr;
-  logic MemWrite, RegWrite, RegSrc, MemAdrSrc, PcSrc;
+  logic [1:0] RegSrc, PcSrc;
+  logic MemWrite, RegWrite, MemAdrSrc, MemDataSrc;
 
   aluop_t aluop;
   instr_t instruction_type;
@@ -54,10 +55,12 @@ module hmmm (
       .MemWrite(MemWrite),
       .RegWrite(RegWrite),
       .MemAdrSrc(MemAdrSrc),
+      .MemDataSrc(MemDataSrc),
       .RegSrc(RegSrc),
       .PcSrc(PcSrc),
       .instruction_type(instruction_type)
   );
+
   Datapath datapath (
       .clk(clk),
       .reset(reset),
@@ -65,6 +68,7 @@ module hmmm (
       .RegWrite(RegWrite),
       .RegSrc(RegSrc),
       .MemAdrSrc(MemAdrSrc),
+      .MemDataSrc(MemDataSrc),
       .PcSrc(PcSrc),
       .instruction_type(instruction_type),
       .Instr(Instr)
@@ -115,8 +119,9 @@ endmodule
 module Controller (
     input logic [15:0] instr,
     output aluop_t aluop,
-    output MemWrite,
-    RegWrite, RegSrc, MemAdrSrc, PcSrc,
+    output logic MemWrite,
+    RegWrite, MemAdrSrc, MemDataSrc,
+    output logic [1:0] RegSrc, PcSrc,
     output instr_t instruction_type
 );
 
@@ -129,7 +134,7 @@ module Controller (
       // TODO not really any good way to do read
       16'b0000_????_0000_0001: instruction_type = READ;
       16'b0000_????_0000_0010: instruction_type = WRITE;  // This was hacked, TODO make better
-      16'b0000_????_0000_0011: instruction_type = JUMPR;  // TODO
+      16'b0000_????_0000_0011: instruction_type = JUMPR;  
 
       // SETN
       16'b0001_????_????_????: instruction_type = SETN; 
@@ -138,12 +143,12 @@ module Controller (
       16'b0010_????_????_????: instruction_type = LOADN;
 
       // STOREN
-      16'b0011_????_????_????: instruction_type = STOREN;  // TODO
+      16'b0011_????_????_????: instruction_type = STOREN;  // TODO check
 
 
       // MEMORY_R
       16'b0100_????_????_0000: instruction_type = LOADR;  
-      16'b0100_????_????_0001: instruction_type = STORER;  // TODO
+      16'b0100_????_????_0001: instruction_type = STORER;  // TODO check
       16'b0100_????_????_0010: instruction_type = POPR;  // TODO
       16'b0100_????_????_0011: instruction_type = PUSHR;  // TODO
 
@@ -170,8 +175,8 @@ module Controller (
       16'b1010_????_????_????: instruction_type = MOD;  // TODO
 
       // JUMPN_CALLN
-      16'b1011_0000_????_????: instruction_type = JUMPN;  // instr[11:8]  // TODO
-      16'b1011_????_0000_0000: instruction_type = CALLN;  // TODO
+      16'b1011_0000_????_????: instruction_type = JUMPN;  // instr[11:8] 
+      16'b1011_????_0000_0000: instruction_type = CALLN;  
 
 
       // Conditional jumps
@@ -188,58 +193,82 @@ module Controller (
 
 
     // RegSrc:
-    //	  0: from immediate
-    //	  1: from data memory (data read)
+    //	 00: from immediate
+    //	 01: from data memory (data read)
+    //	 10: from Pc + 2 (next instruction) // TODO check
     //
     // MemAdrSrc:
     //    0: from immediate
-    //    1: from register file (data read 2)
+    //    1: from register file (data read 2) // TODO check
     // PcSrc:
-    //    0: from PC + 2
-    //    1: from PCTarget (right now, just immediate)
+    //    00: from PC + 2
+    //    10: from PCTarget (immediate)
+    //    11: from PCTarget (rX)
+    //
+    //  MemDataSrc:
+    //    0: from ALU result
+    //    1: from register file (data read 1) // TODO check
+    //
 
 
   always_comb begin
     $display("\n");
-    MemWrite = 0;
-    RegWrite = 0;
-    RegSrc = 0;
     MemAdrSrc = 0; // imm
+    MemDataSrc = 0;
+    MemWrite = 0;
     PcSrc = 0;  // PC gets PC + 2
+    RegSrc = 0;
+    RegWrite = 0;
     aluop = ALU_ADD;
     case (instruction_type)
       LOADR: begin
 	$display("LOADR");
-        //MemWrite = 0;
-        RegWrite = 1;
-	RegSrc = 1;
 	MemAdrSrc = 1;
+	RegSrc = 1;
+        RegWrite = 1;
       end
       WRITE: begin
 	$display("WRITE");
-        //MemWrite = 0;
-        //RegWrite = 0;
 	MemAdrSrc = 1;
       end
       SETN: begin
 	$display("SETN");
-	RegWrite = 1;
-	RegSrc = 0; // implied but fine TODO
 	MemAdrSrc = 1;
+	RegWrite = 1;
       end
       LOADN: begin
 	$display("LOADN");
-	RegWrite = 1;
-	RegSrc = 1;
 	MemAdrSrc = 0;
+	RegSrc = 1;
+	RegWrite = 1;
       end
       JUMPN: begin
 	$display("JUMPN");
-	PcSrc = 1;
+	PcSrc = 2'b10;
+      end
+      JUMPR: begin
+      	$display("JUMPR");
+	// PcNext from rX
+	PcSrc = 2'b11;
       end
       CALLN: begin
 	$display("CALLN");
-	// TODO
+	// Rx gets Pc+2
+	// PcNext from current rX
+	PcSrc = 2'b11;
+	RegSrc = 2'b10;
+      end
+      STOREN: begin
+      	$display("STOREN");
+	MemDataSrc = 1;
+	MemWrite = 1;
+      end
+      STORER: begin
+	$display("$STORER");
+	MemAdrSrc = 1;
+	MemDataSrc = 1;
+	MemWrite = 1;
+      	
       end
 
       ADD: aluop = ALU_ADD;
@@ -254,14 +283,15 @@ module Datapath (
     input logic clk,
     reset,
     input logic MemWrite,
-    RegWrite, RegSrc, MemAdrSrc, PcSrc,
+    RegWrite, MemAdrSrc, MemDataSrc,
+    input logic [1:0] PcSrc, RegSrc,
     input instr_t instruction_type,
     output logic [15:0] Instr
 );
 
-  logic [7:0] Pc, PcTarget, Imm, MemDataAddress;
+  logic [7:0] Pc, PcNext, PcTarget, Imm, MemDataAddress;
 
-  logic [15:0] Result, SrcA, rf_read_data_1, rf_read_data_2, rf_read_data_3, mem_read_data;
+  logic [15:0] Result, ALUResult, SrcA, rf_read_data_1, rf_read_data_2, rf_read_data_3, mem_read_data, mem_write_data;
 
   logic [3:0] rX, rY, rZ;
 
@@ -275,12 +305,15 @@ module Datapath (
 
 
   // PC logic
-  assign PcTarget = Imm *2;
+  assign PcTarget = PcSrc[0] ? Imm * 2 : rf_read_data_1[7:0] * 2; // todo check
 
-  always_ff @(posedge clk, posedge reset)
-    if (reset) Pc <= 0;
-    else if (PcSrc) Pc <= PcTarget;
-    else Pc <= Pc + 2;  // word alignment is 2 bytes
+
+  always_comb
+    if (reset) PcNext = 0;
+    else if (PcSrc[1]) PcNext = PcTarget;
+    else PcNext = Pc + 2;  // word alignment is 2 bytes
+
+  always_ff @(posedge clk, posedge reset) Pc <= PcNext;
 
   always_ff @(posedge clk)
   begin
@@ -300,6 +333,11 @@ module Datapath (
   assign MemDataAddress = MemAdrSrc ? rf_read_data_2[7:0] : Imm;
 
 
+  
+  assign ALUResult = 16'dx;
+  assign mem_write_data = MemDataSrc ? rf_read_data_1 : ALUResult; // TODO check
+
+
   // Memory logic
   Memory mem (
       .clk(clk),
@@ -311,7 +349,13 @@ module Datapath (
       .read_data(mem_read_data)
   );
 
-  assign Result = RegSrc ? mem_read_data : {8'b0, Imm};
+  always_comb
+    case (RegSrc)
+      2'b00: Result = mem_read_data;
+      2'b01: Result = {8'b0, Imm};
+      2'b11: Result = {8'b0, PcNext}; 
+      default: Result = 16'bx; 
+    endcase
 
 
   // REGISTER FILE logic
