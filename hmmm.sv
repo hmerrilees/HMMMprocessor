@@ -230,8 +230,8 @@ module Controller (
     MemAdrSrc = 0;  // imm
     MemDataSrc = 0;
     MemWrite = 0;
-    PcSrc = 0;  // PC gets PC + 2
-    RegSrc = 0;
+    PcSrc = 2'b00;  // PC gets PC + 2
+    RegSrc = 2'b00;
     RegWrite = 0;
     aluop = ALU_ADD;
     case (instruction_type)
@@ -239,7 +239,7 @@ module Controller (
         $display("LOADR");
         // Load register rX with data from the address location held in reg. rY
         MemAdrSrc = 1;  // write to the memory address that is the contents of register rY
-        RegSrc = 1;  // pass the data read from memory to the register file
+        RegSrc = 2'b01;  // pass the data read from memory to the register file
         RegWrite = 1;  // enable write to rx
       end
       WRITE: begin
@@ -258,7 +258,7 @@ module Controller (
         $display("LOADN");
         // Load register rX with the contents of memory address N
         MemAdrSrc = 0;  // source memory address from the immediate
-        RegSrc    = 1;  // register file gets write data from memory
+        RegSrc    = 2'b01;  // register file gets write data from memory
         RegWrite  = 1;  // enable write to rx
       end
       JUMPN: begin
