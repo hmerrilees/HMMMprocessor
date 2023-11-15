@@ -21,8 +21,9 @@ VL_ATTR_COLD void Vhmmm___024root___eval_initial(Vhmmm___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vhmmm___024root___eval_initial\n"); );
     // Body
     Vhmmm___024root___eval_initial__TOP(vlSelf);
+    vlSelf->__Vm_traceActivity[1U] = 1U;
+    vlSelf->__Vm_traceActivity[0U] = 1U;
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = vlSelf->clk;
-    vlSelf->__Vtrigprevexpr___TOP__reset__0 = vlSelf->reset;
 }
 
 VL_ATTR_COLD void Vhmmm___024root___eval_initial__TOP(Vhmmm___024root* vlSelf) {
@@ -70,7 +71,7 @@ VL_ATTR_COLD void Vhmmm___024root___eval_settle(Vhmmm___024root* vlSelf) {
 #ifdef VL_DEBUG
                 Vhmmm___024root___dump_triggers__stl(vlSelf);
 #endif
-                VL_FATAL_MT("hmmm.sv", 40, "", "Settle region did not converge.");
+                VL_FATAL_MT("hmmm.sv", 43, "", "Settle region did not converge.");
             }
             vlSelf->__VstlIterCount = ((IData)(1U) 
                                        + vlSelf->__VstlIterCount);
@@ -102,15 +103,11 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
     vlSelf->hmmm__DOT__Instr = vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
         [(0xffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc) 
                    >> 1U))];
-    vlSelf->__VdfgTmp_h79120594__0 = vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
-        [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
-                  >> 4U))];
     vlSelf->__VdfgTmp_h79043d9e__0 = vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
         [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
                   >> 8U))];
-    vlSelf->hmmm__DOT__instruction_type = ((0x8000U 
-                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                            ? ((0x4000U 
+    if ((0x8000U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        vlSelf->hmmm__DOT__instruction_type = ((0x4000U 
                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
                                                 ? (
                                                    (0x2000U 
@@ -118,13 +115,13 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
                                                     ? 
                                                    ((0x1000U 
                                                      & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                     ? 0x16U
-                                                     : 0x15U)
+                                                     ? 0x18U
+                                                     : 0x17U)
                                                     : 
                                                    ((0x1000U 
                                                      & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                     ? 0x14U
-                                                     : 0x13U))
+                                                     ? 0x16U
+                                                     : 0x15U))
                                                 : (
                                                    (0x2000U 
                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
@@ -134,398 +131,222 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
                                                      ? 
                                                     ((0x800U 
                                                       & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                      ? 
-                                                     ((0x80U 
-                                                       & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                       ? 1U
-                                                       : 
-                                                      ((0x40U 
-                                                        & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x20U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x10U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((8U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((4U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((2U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((1U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 1U
-                                                              : 0x17U))))))))
+                                                      ? 0x19U
                                                       : 
                                                      ((0x400U 
                                                        & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                       ? 
-                                                      ((0x80U 
-                                                        & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x40U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x20U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x10U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((8U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((4U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((2U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 1U
-                                                              : 
-                                                             ((1U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 1U
-                                                               : 0x17U))))))))
+                                                       ? 0x19U
                                                        : 
                                                       ((0x200U 
                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                        ? 
-                                                       ((0x80U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x40U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x20U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((0x10U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((8U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((4U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 1U
-                                                              : 
-                                                             ((2U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 1U
-                                                               : 
-                                                              ((1U 
-                                                                & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                ? 1U
-                                                                : 0x17U))))))))
+                                                        ? 0x19U
                                                         : 
                                                        ((0x100U 
                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 
-                                                        ((0x80U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x40U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((0x20U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((0x10U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((8U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 1U
-                                                              : 
-                                                             ((4U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 1U
-                                                               : 
-                                                              ((2U 
-                                                                & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                ? 1U
-                                                                : 
-                                                               ((1U 
-                                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                 ? 1U
-                                                                 : 0x17U))))))))
-                                                         : 0x12U))))
-                                                     : 0x10U)
+                                                         ? 0x19U
+                                                         : 0x14U))))
+                                                     : 0x12U)
                                                     : 
                                                    ((0x1000U 
                                                      & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                     ? 0xfU
-                                                     : 0xeU)))
-                                            : ((0x4000U 
+                                                     ? 0x11U
+                                                     : 0x10U)));
+    } else if ((0x4000U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        if ((0x2000U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+            vlSelf->hmmm__DOT__instruction_type = (
+                                                   (0x1000U 
+                                                    & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                    ? 0xeU
+                                                    : 0xcU);
+        } else if ((0x1000U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+            vlSelf->hmmm__DOT__instruction_type = 0xbU;
+        } else if (VL_UNLIKELY((8U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((4U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else {
+            vlSelf->hmmm__DOT__instruction_type = (
+                                                   (2U 
+                                                    & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                    ? 
+                                                   ((1U 
+                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                     ? 8U
+                                                     : 7U)
+                                                    : 
+                                                   ((1U 
+                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                     ? 6U
+                                                     : 5U));
+        }
+    } else if ((0x2000U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        vlSelf->hmmm__DOT__instruction_type = ((0x1000U 
+                                                & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                ? 0xaU
+                                                : 9U);
+    } else if ((0x1000U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        vlSelf->hmmm__DOT__instruction_type = 4U;
+    } else if ((0x800U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        if (VL_UNLIKELY((0x80U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x40U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x20U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x10U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((8U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((4U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if ((2U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+            vlSelf->hmmm__DOT__instruction_type = (
+                                                   (1U 
+                                                    & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                    ? 0x13U
+                                                    : 3U);
+        } else if (VL_LIKELY((1U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            vlSelf->hmmm__DOT__instruction_type = 2U;
+        } else {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        }
+    } else if ((0x400U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        if (VL_UNLIKELY((0x80U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x40U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x20U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x10U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((8U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((4U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if ((2U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+            vlSelf->hmmm__DOT__instruction_type = (
+                                                   (1U 
+                                                    & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                    ? 0x13U
+                                                    : 3U);
+        } else if (VL_LIKELY((1U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            vlSelf->hmmm__DOT__instruction_type = 2U;
+        } else {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        }
+    } else if ((0x200U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        if (VL_UNLIKELY((0x80U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x40U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x20U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x10U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((8U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((4U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if ((2U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+            vlSelf->hmmm__DOT__instruction_type = (
+                                                   (1U 
+                                                    & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                    ? 0x13U
+                                                    : 3U);
+        } else if (VL_LIKELY((1U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            vlSelf->hmmm__DOT__instruction_type = 2U;
+        } else {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        }
+    } else if ((0x100U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+        if (VL_UNLIKELY((0x80U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x40U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x20U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((0x10U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((8U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if (VL_UNLIKELY((4U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        } else if ((2U & (IData)(vlSelf->hmmm__DOT__Instr))) {
+            vlSelf->hmmm__DOT__instruction_type = (
+                                                   (1U 
+                                                    & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                    ? 0x13U
+                                                    : 3U);
+        } else if (VL_LIKELY((1U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+            vlSelf->hmmm__DOT__instruction_type = 2U;
+        } else {
+            VL_WRITEF("unknown instruction, defaulting to NOP\n");
+            vlSelf->hmmm__DOT__instruction_type = 1U;
+        }
+    } else if (VL_UNLIKELY((0x80U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+        VL_WRITEF("unknown instruction, defaulting to NOP\n");
+        vlSelf->hmmm__DOT__instruction_type = 1U;
+    } else if (VL_UNLIKELY((0x40U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+        VL_WRITEF("unknown instruction, defaulting to NOP\n");
+        vlSelf->hmmm__DOT__instruction_type = 1U;
+    } else if (VL_UNLIKELY((0x20U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+        VL_WRITEF("unknown instruction, defaulting to NOP\n");
+        vlSelf->hmmm__DOT__instruction_type = 1U;
+    } else if (VL_UNLIKELY((0x10U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+        VL_WRITEF("unknown instruction, defaulting to NOP\n");
+        vlSelf->hmmm__DOT__instruction_type = 1U;
+    } else if (VL_UNLIKELY((8U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+        VL_WRITEF("unknown instruction, defaulting to NOP\n");
+        vlSelf->hmmm__DOT__instruction_type = 1U;
+    } else if (VL_UNLIKELY((4U & (IData)(vlSelf->hmmm__DOT__Instr)))) {
+        VL_WRITEF("unknown instruction, defaulting to NOP\n");
+        vlSelf->hmmm__DOT__instruction_type = 1U;
+    } else {
+        vlSelf->hmmm__DOT__instruction_type = ((2U 
                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
                                                 ? (
-                                                   (0x2000U 
+                                                   (1U 
                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                    ? 
-                                                   ((0x1000U 
-                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                     ? 0xdU
-                                                     : 0xcU)
-                                                    : 
-                                                   ((0x1000U 
-                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                     ? 0xbU
-                                                     : 
-                                                    ((8U 
-                                                      & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                      ? 1U
-                                                      : 
-                                                     ((4U 
-                                                       & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                       ? 1U
-                                                       : 
-                                                      ((2U 
-                                                        & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                        ? 
-                                                       ((1U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 8U
-                                                         : 7U)
-                                                        : 
-                                                       ((1U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 6U
-                                                         : 5U))))))
+                                                    ? 0x13U
+                                                    : 3U)
                                                 : (
-                                                   (0x2000U 
+                                                   (1U 
                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                    ? 
-                                                   ((0x1000U 
-                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                     ? 0xaU
-                                                     : 9U)
-                                                    : 
-                                                   ((0x1000U 
-                                                     & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                     ? 4U
-                                                     : 
-                                                    ((0x800U 
-                                                      & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                      ? 
-                                                     ((0x80U 
-                                                       & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                       ? 1U
-                                                       : 
-                                                      ((0x40U 
-                                                        & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x20U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x10U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((8U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((4U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((2U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 
-                                                            ((1U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 0x11U
-                                                              : 3U)
-                                                             : 
-                                                            ((1U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 2U
-                                                              : 1U))))))))
-                                                      : 
-                                                     ((0x400U 
-                                                       & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                       ? 
-                                                      ((0x80U 
-                                                        & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x40U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x20U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x10U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((8U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((4U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((2U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 
-                                                             ((1U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 0x11U
-                                                               : 3U)
-                                                              : 
-                                                             ((1U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 2U
-                                                               : 1U))))))))
-                                                       : 
-                                                      ((0x200U 
-                                                        & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                        ? 
-                                                       ((0x80U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x40U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x20U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((0x10U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((8U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((4U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 1U
-                                                              : 
-                                                             ((2U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 
-                                                              ((1U 
-                                                                & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                ? 0x11U
-                                                                : 3U)
-                                                               : 
-                                                              ((1U 
-                                                                & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                ? 2U
-                                                                : 1U))))))))
-                                                        : 
-                                                       ((0x100U 
-                                                         & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                         ? 
-                                                        ((0x80U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x40U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((0x20U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((0x10U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((8U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 1U
-                                                              : 
-                                                             ((4U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 1U
-                                                               : 
-                                                              ((2U 
-                                                                & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                ? 
-                                                               ((1U 
-                                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                 ? 0x11U
-                                                                 : 3U)
-                                                                : 
-                                                               ((1U 
-                                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                 ? 2U
-                                                                 : 1U))))))))
-                                                         : 
-                                                        ((0x80U 
-                                                          & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x40U 
-                                                           & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                           ? 1U
-                                                           : 
-                                                          ((0x20U 
-                                                            & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                            ? 1U
-                                                            : 
-                                                           ((0x10U 
-                                                             & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                             ? 1U
-                                                             : 
-                                                            ((8U 
-                                                              & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                              ? 1U
-                                                              : 
-                                                             ((4U 
-                                                               & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                               ? 1U
-                                                               : 
-                                                              ((2U 
-                                                                & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                ? 
-                                                               ((1U 
-                                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                 ? 0x11U
-                                                                 : 3U)
-                                                                : 
-                                                               ((1U 
-                                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                                 ? 2U
-                                                                 : 0U))))))))))))))));
+                                                    ? 2U
+                                                    : 0U));
+    }
+    vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1 
+        = ((0U == (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                           >> 8U))) ? 0U : (IData)(vlSelf->__VdfgTmp_h79043d9e__0));
     VL_WRITEF("\n\n");
     vlSelf->hmmm__DOT__MemAdrSrc = 0U;
     vlSelf->hmmm__DOT__MemDataSrc = 0U;
@@ -538,9 +359,9 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
                | (3U == vlSelf->hmmm__DOT__instruction_type)) 
               | (4U == vlSelf->hmmm__DOT__instruction_type)) 
              | (9U == vlSelf->hmmm__DOT__instruction_type)) 
-            | (0x12U == vlSelf->hmmm__DOT__instruction_type)) 
-           | (0x11U == vlSelf->hmmm__DOT__instruction_type)) 
-          | (0x17U == vlSelf->hmmm__DOT__instruction_type)) 
+            | (0x14U == vlSelf->hmmm__DOT__instruction_type)) 
+           | (0x13U == vlSelf->hmmm__DOT__instruction_type)) 
+          | (0x19U == vlSelf->hmmm__DOT__instruction_type)) 
          | (0xaU == vlSelf->hmmm__DOT__instruction_type))) {
         if (VL_UNLIKELY((5U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("LOADR\n");
@@ -552,6 +373,7 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
             vlSelf->hmmm__DOT__MemAdrSrc = 1U;
         } else if (VL_UNLIKELY((4U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("SETN\n");
+            vlSelf->hmmm__DOT__RegSrc = 0U;
             vlSelf->hmmm__DOT__MemAdrSrc = 1U;
             vlSelf->hmmm__DOT__RegWrite = 1U;
         } else if (VL_UNLIKELY((9U == vlSelf->hmmm__DOT__instruction_type))) {
@@ -559,29 +381,37 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
             vlSelf->hmmm__DOT__MemAdrSrc = 0U;
             vlSelf->hmmm__DOT__RegSrc = 1U;
             vlSelf->hmmm__DOT__RegWrite = 1U;
-        } else if (VL_UNLIKELY((0x12U == vlSelf->hmmm__DOT__instruction_type))) {
+        } else if (VL_UNLIKELY((0x14U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("JUMPN\n");
             vlSelf->hmmm__DOT__PcSrc = 2U;
-        } else if (VL_UNLIKELY((0x11U == vlSelf->hmmm__DOT__instruction_type))) {
+        } else if (VL_UNLIKELY((0x13U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("JUMPR\n");
             vlSelf->hmmm__DOT__PcSrc = 3U;
-        } else if ((0x17U == vlSelf->hmmm__DOT__instruction_type)) {
+        } else if ((0x19U == vlSelf->hmmm__DOT__instruction_type)) {
             VL_WRITEF("CALLN\n");
-            vlSelf->hmmm__DOT__PcSrc = 3U;
+            vlSelf->hmmm__DOT__PcSrc = 2U;
             vlSelf->hmmm__DOT__RegSrc = 2U;
+            vlSelf->hmmm__DOT__RegWrite = 1U;
         } else {
             VL_WRITEF("STOREN\n");
             vlSelf->hmmm__DOT__MemDataSrc = 1U;
             vlSelf->hmmm__DOT__MemWrite = 1U;
         }
     } else if (VL_UNLIKELY((6U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("$STORER\n");
+        VL_WRITEF("STORER\n");
         vlSelf->hmmm__DOT__MemAdrSrc = 1U;
         vlSelf->hmmm__DOT__MemDataSrc = 1U;
         vlSelf->hmmm__DOT__MemWrite = 1U;
     } else if ((0xcU == vlSelf->hmmm__DOT__instruction_type)) {
         vlSelf->hmmm__DOT__aluop = 0U;
     }
+    vlSelf->hmmm__DOT__datapath__DOT__MemDataAddress 
+        = (0xffU & ((IData)(vlSelf->hmmm__DOT__MemAdrSrc)
+                     ? ((0U == (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                                        >> 4U))) ? 0U
+                         : vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
+                        [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                                  >> 4U))]) : (IData)(vlSelf->hmmm__DOT__Instr)));
     vlSelf->hmmm__DOT__datapath__DOT__PcNext = ((IData)(vlSelf->reset)
                                                  ? 0U
                                                  : 
@@ -592,10 +422,6 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
                                                     ((1U 
                                                       & (IData)(vlSelf->hmmm__DOT__PcSrc))
                                                       ? 
-                                                     (0x1feU 
-                                                      & ((IData)(vlSelf->hmmm__DOT__Instr) 
-                                                         << 1U))
-                                                      : 
                                                      (((0U 
                                                         == 
                                                         (0xfU 
@@ -605,7 +431,11 @@ VL_ATTR_COLD void Vhmmm___024root___stl_sequent__TOP__0(Vhmmm___024root* vlSelf)
                                                         : 
                                                        (0xffU 
                                                         & (IData)(vlSelf->__VdfgTmp_h79043d9e__0))) 
-                                                      << 1U))
+                                                      << 1U)
+                                                      : 
+                                                     (0x1feU 
+                                                      & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                                                         << 1U)))
                                                      : 
                                                     ((IData)(2U) 
                                                      + (IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc)))));
@@ -618,7 +448,6 @@ VL_ATTR_COLD void Vhmmm___024root___eval_stl(Vhmmm___024root* vlSelf) {
     // Body
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
         Vhmmm___024root___stl_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[2U] = 1U;
         vlSelf->__Vm_traceActivity[1U] = 1U;
         vlSelf->__Vm_traceActivity[0U] = 1U;
     }
@@ -649,10 +478,7 @@ VL_ATTR_COLD void Vhmmm___024root___dump_triggers__act(Vhmmm___024root* vlSelf) 
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
-        VL_DBG_MSGF("         'act' region trigger index 0 is active: @(posedge clk or posedge reset)\n");
-    }
-    if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
-        VL_DBG_MSGF("         'act' region trigger index 1 is active: @(posedge clk)\n");
+        VL_DBG_MSGF("         'act' region trigger index 0 is active: @(posedge clk)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -667,10 +493,7 @@ VL_ATTR_COLD void Vhmmm___024root___dump_triggers__nba(Vhmmm___024root* vlSelf) 
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @(posedge clk or posedge reset)\n");
-    }
-    if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        VL_DBG_MSGF("         'nba' region trigger index 1 is active: @(posedge clk)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @(posedge clk)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -693,7 +516,11 @@ VL_ATTR_COLD void Vhmmm___024root___ctor_var_reset(Vhmmm___024root* vlSelf) {
     vlSelf->hmmm__DOT__instruction_type = 0;
     vlSelf->hmmm__DOT__datapath__DOT__Pc = VL_RAND_RESET_I(8);
     vlSelf->hmmm__DOT__datapath__DOT__PcNext = VL_RAND_RESET_I(8);
+    vlSelf->hmmm__DOT__datapath__DOT__MemDataAddress = VL_RAND_RESET_I(8);
     vlSelf->hmmm__DOT__datapath__DOT__SrcA = VL_RAND_RESET_I(16);
+    vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1 = VL_RAND_RESET_I(16);
+    vlSelf->hmmm__DOT__datapath__DOT__unnamedblk1__DOT__i = 0;
+    vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i = 0;
     for (int __Vi0 = 0; __Vi0 < 256; ++__Vi0) {
         vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM[__Vi0] = VL_RAND_RESET_I(16);
     }
@@ -701,10 +528,8 @@ VL_ATTR_COLD void Vhmmm___024root___ctor_var_reset(Vhmmm___024root* vlSelf) {
         vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[__Vi0] = VL_RAND_RESET_I(16);
     }
     vlSelf->__VdfgTmp_h79043d9e__0 = 0;
-    vlSelf->__VdfgTmp_h79120594__0 = 0;
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__reset__0 = VL_RAND_RESET_I(1);
-    for (int __Vi0 = 0; __Vi0 < 3; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }

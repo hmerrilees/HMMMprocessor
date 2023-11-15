@@ -24,25 +24,27 @@ class alignas(VL_CACHE_LINE_BYTES) Vhmmm___024root final : public VerilatedModul
     CData/*0:0*/ hmmm__DOT__MemDataSrc;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__Pc;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__PcNext;
+    CData/*7:0*/ hmmm__DOT__datapath__DOT__MemDataAddress;
     CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;
-    CData/*0:0*/ __Vtrigprevexpr___TOP__reset__0;
     CData/*0:0*/ __VactContinue;
     SData/*15:0*/ hmmm__DOT__Instr;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__SrcA;
+    SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_1;
     SData/*15:0*/ __VdfgTmp_h79043d9e__0;
-    SData/*15:0*/ __VdfgTmp_h79120594__0;
     IData/*31:0*/ hmmm__DOT__aluop;
     IData/*31:0*/ hmmm__DOT__instruction_type;
+    IData/*31:0*/ hmmm__DOT__datapath__DOT__unnamedblk1__DOT__i;
+    IData/*31:0*/ hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<SData/*15:0*/, 256> hmmm__DOT__datapath__DOT__mem__DOT__RAM;
     VlUnpacked<SData/*15:0*/, 16> hmmm__DOT__datapath__DOT__rf__DOT__registers;
-    VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
+    VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
     VlTriggerVec<1> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;
-    VlTriggerVec<2> __VactTriggered;
-    VlTriggerVec<2> __VnbaTriggered;
+    VlTriggerVec<1> __VactTriggered;
+    VlTriggerVec<1> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vhmmm__Syms* const vlSymsp;
