@@ -226,14 +226,16 @@ module Controller (
 
 
   always_comb begin
-    $display("\n");
-    MemAdrSrc = 0;  // imm
-    MemDataSrc = 0;
-    MemWrite = 0;
+    // defaults
+    MemAdrSrc = 0;  // memory sources from immediate
+    MemDataSrc = 0; // memory gets write data from ALU result
+    MemWrite = 0; // disable write to memory
     PcSrc = 2'b00;  // PC gets PC + 2
-    RegSrc = 2'b00;
-    RegWrite = 0;
-    aluop = ALU_ADD;
+    RegSrc = 2'b00; // register file gets write data from immediate
+    RegWrite = 0; // disable write to register file
+    aluop = ALU_ADD; // default ALU operation is ADD
+
+    $display("\n");
     case (instruction_type)
       LOADR: begin
         $display("LOADR");
