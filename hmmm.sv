@@ -316,18 +316,18 @@ module Controller (
               "NOP"
           );  // NOP is the case of ADD where a, b, and result are all from/to r0, which is hard-wired to 0
         endcase
-        alu_op  = ALU_ADD;
-        ALUSrcA = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB = 0;  // default ALU source B is the contents of register rZ
-        RegSrc  = 2'b11;  // register file gets write data from the ALU result
+        alu_op   = ALU_ADD;
+        ALUSrcA  = 0;  // default ALU source A is the contents of register rY
+        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
       ADDN: begin  // Copy is a duplicate of ADD which always gets 
         $display("ADDN");
-        alu_op  = ALU_ADD;
-        ALUSrcA = 1;  // default ALU source A is the contents of register rX
-        ALUSrcB = 1;  // ALU source B is the immediate
-        RegSrc  = 2'b11;  // register file gets write data from the ALU result
+        alu_op   = ALU_ADD;
+        ALUSrcA  = 1;  // default ALU source A is the contents of register rX
+        ALUSrcB  = 1;  // ALU source B is the immediate
+        RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
       SUB, NEG: begin
@@ -338,34 +338,34 @@ module Controller (
               "NEG"
           );  // NEG is the case of SUB where source a is taken from r0, which is hard-wired to 0
         endcase
-        alu_op  = ALU_SUB;
-        ALUSrcA = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB = 0;  // default ALU source B is the contents of register rZ
-        RegSrc  = 2'b11;  // register file gets write data from the ALU result
+        alu_op   = ALU_SUB;
+        ALUSrcA  = 0;  // default ALU source A is the contents of register rY
+        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
       MUL: begin
         $display("MUL");
-        alu_op  = ALU_MUL;
-        ALUSrcA = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB = 0;  // default ALU source B is the contents of register rZ
-        RegSrc  = 2'b11;  // register file gets write data from the ALU result
+        alu_op   = ALU_MUL;
+        ALUSrcA  = 0;  // default ALU source A is the contents of register rY
+        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
       DIV: begin
         $display("DIV");
-        alu_op  = ALU_DIV;
-        ALUSrcA = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB = 0;  // default ALU source B is the contents of register rZ
-        RegSrc  = 2'b11;  // register file gets write data from the ALU result
+        alu_op   = ALU_DIV;
+        ALUSrcA  = 0;  // default ALU source A is the contents of register rY
+        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
       MOD: begin
         $display("MOD");
-        alu_op  = ALU_MOD;
-        ALUSrcA = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB = 0;  // default ALU source B is the contents of register rZ
-        RegSrc  = 2'b11;  // register file gets write data from the ALU result
+        alu_op   = ALU_MOD;
+        ALUSrcA  = 0;  // default ALU source A is the contents of register rY
+        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
     endcase
@@ -391,6 +391,8 @@ module Datapath (
     output logic [15:0] Instr
 );
 
+  // ==============  Internal Signals ============== 
+
 
   logic [7:0] Pc, PcPlus2, PcNext, PcTarget, Imm, mem_data_address;
 
@@ -407,33 +409,32 @@ module Datapath (
 
   logic [3:0] rX, rY, rZ;
 
-
-  //assign opcode = Instr[15:12];
   assign rX = Instr[11:8];
   assign rY = Instr[7:4];
   assign rZ = Instr[3:0];
 
   assign Imm = Instr[7:0];
 
+  logic zero, sign;
 
-  // PC logic
-  assign PcTarget = PcSrc[0] ? rf_read_data_1[7:0] * 2 : Imm * 2;  // todo check
-
-  assign PcPlus2 = Pc + 2;
-
+  // ============== PC logic ============== 
+  always_ff @(posedge clk) Pc <= PcNext;
 
   always_comb
     if (reset) PcNext = 0;
     else if (PcSrc[1]) PcNext = PcTarget;
     else PcNext = PcPlus2;  // word alignment is 2 bytes
 
-  always_ff @(posedge clk) Pc <= PcNext;
+  assign PcTarget = PcSrc[0] ? rf_read_data_1[7:0] * 2 : Imm * 2;  // todo check
+  assign PcPlus2 = Pc + 2;
+
+
+  // cheat to handle status prints, write and halt
 
   always_ff @(posedge clk) begin
     $display("PC: %h", Pc);
     $display("instruction: %h", Instr);
 
-    // cheat to handle write
     if (instruction_type == WRITE) $display("write: %b", rf_read_data_1);
     else if (instruction_type == HALT) begin
       $display("halt");
@@ -447,15 +448,13 @@ module Datapath (
       for (int i = 0; i < 255; i++) begin
         $display("mem[%d]: %h", i, mem.RAM[i]);
       end
-
+      // done
       $finish;
     end
   end
 
 
-
-
-  // Memory logic
+  // ============== Memory logic ============== 
   Memory mem (
       .clk(clk),
       .write_en(MemWrite),
@@ -467,7 +466,7 @@ module Datapath (
   );
 
   assign mem_data_address = MemAdrSrc ? rf_read_data_2[7:0] : Imm;
-  assign mem_write_data   = MemDataSrc ? rf_read_data_1 : alu_result;  // TODO check
+  assign mem_write_data   = MemDataSrc ? rf_read_data_1 : alu_result;
 
   always_comb
     case (RegSrc)
@@ -477,8 +476,7 @@ module Datapath (
       2'b11: result = alu_result;
     endcase
 
-
-  // REGISTER FILE logic
+  // ============== REGISTER FILE logic ============== 
   RegisterFile rf (
       .clk(clk),
       .address_1(rX),
@@ -491,12 +489,7 @@ module Datapath (
       .read_data_3(rf_read_data_3)
   );
 
-  assign alu_src_a = ALUSrcA ? rf_read_data_2 : rf_read_data_1;
-  assign alu_src_b = ALUSrcB ? {8'b0, Imm} : rf_read_data_3;
-
-
-  // ALU logic
-  logic zero, sign;
+  // ============= ALU logic ============== 
 
   ALU alu (
       .alu_op(alu_op),
@@ -507,26 +500,28 @@ module Datapath (
       .alu_result(alu_result)
   );
 
+  assign alu_src_a = ALUSrcA ? rf_read_data_2 : rf_read_data_1;
+  assign alu_src_b = ALUSrcB ? {8'b0, Imm} : rf_read_data_3;
+
 
 endmodule
 
 module ALU (
     input alu_op_t alu_op,
-    input logic [15:0] src_a, src_b,
+    input logic [15:0] src_a,
+    src_b,
     output logic [15:0] alu_result,
-    output logic zero, sign
+    output logic zero,
+    sign
 );
-
-
 
   always_comb
     case (alu_op)
       ALU_ADD: alu_result = src_a + src_b;
       ALU_SUB: alu_result = src_a + ~src_b + 1;
       ALU_MUL: alu_result = src_a * src_b;
-      ALU_DIV: alu_result = src_a / src_b; // check div by 0
+      ALU_DIV: alu_result = src_a / src_b;  // check div by 0
       ALU_MOD: alu_result = src_a % src_b;
-      //default: alu_result = 16'dx;
     endcase
 
   assign zero = (alu_result == 0);
