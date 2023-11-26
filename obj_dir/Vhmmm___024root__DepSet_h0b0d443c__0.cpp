@@ -99,9 +99,16 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
     __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 = 0;
     CData/*0:0*/ __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0;
     __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 = 0;
+    CData/*3:0*/ __Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1;
+    __Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1 = 0;
+    SData/*15:0*/ __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1;
+    __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1 = 0;
+    CData/*0:0*/ __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1;
+    __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1 = 0;
     // Body
-    __Vdlyvset__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0 = 0U;
     __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 = 0U;
+    __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1 = 0U;
+    __Vdlyvset__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0 = 0U;
     VL_WRITEF("Instruction number: %10#\ninstruction: %x\n",
               32,((IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc) 
                   >> 1U),16,(IData)(vlSelf->hmmm__DOT__Instr));
@@ -135,7 +142,26 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
             vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i 
                 = ((IData)(1U) + vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i);
         }
-        VL_FINISH_MT("hmmm.sv", 511, "");
+        VL_FINISH_MT("hmmm.sv", 552, "");
+    }
+    if (vlSelf->hmmm__DOT__RegWrite) {
+        if (vlSelf->hmmm__DOT__RegWriteDest) {
+            if (vlSelf->hmmm__DOT__RegWriteDest) {
+                __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 
+                    = vlSelf->hmmm__DOT__datapath__DOT__result;
+                __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 = 1U;
+                __Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 
+                    = (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                               >> 4U));
+            }
+        } else {
+            __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1 
+                = vlSelf->hmmm__DOT__datapath__DOT__result;
+            __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1 = 1U;
+            __Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1 
+                = (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                           >> 8U));
+        }
     }
     if (vlSelf->hmmm__DOT__MemWrite) {
         __Vdlyvval__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0 
@@ -146,24 +172,13 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
         __Vdlyvdim0__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0 
             = vlSelf->hmmm__DOT__datapath__DOT__mem_data_address;
     }
-    if (vlSelf->hmmm__DOT__RegWrite) {
-        __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 
-            = ((2U & (IData)(vlSelf->hmmm__DOT__RegSrc))
-                ? ((1U & (IData)(vlSelf->hmmm__DOT__RegSrc))
-                    ? (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)
-                    : (0xffU & ((IData)(2U) + (IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc))))
-                : ((1U & (IData)(vlSelf->hmmm__DOT__RegSrc))
-                    ? vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
-                   [vlSelf->hmmm__DOT__datapath__DOT__mem_data_address]
-                    : (IData)(vlSelf->hmmm__DOT__datapath__DOT__ImmExt)));
-        __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 = 1U;
-        __Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 
-            = (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
-                       >> 8U));
-    }
     if (__Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0) {
         vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[__Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0] 
             = __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0;
+    }
+    if (__Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1) {
+        vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[__Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1] 
+            = __Vdlyvval__hmmm__DOT__datapath__DOT__rf__DOT__registers__v1;
     }
     if (__Vdlyvset__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0) {
         vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM[__Vdlyvdim0__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0] 
@@ -182,12 +197,14 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
                                                  : 
                                                 (0xffU 
                                                  & (IData)(vlSelf->hmmm__DOT__Instr)));
-    vlSelf->__VdfgTmp_h79120594__0 = vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
-        [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
-                  >> 4U))];
     vlSelf->__VdfgTmp_h79043d9e__0 = vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
         [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
                   >> 8U))];
+    vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_2 
+        = ((0U == (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                           >> 4U))) ? 0U : vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
+           [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                     >> 4U))]);
     if ((0x8000U & (IData)(vlSelf->hmmm__DOT__Instr))) {
         vlSelf->hmmm__DOT__instruction_type = ((0x4000U 
                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
@@ -435,23 +452,26 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
     vlSelf->hmmm__DOT__PcSrc = 0U;
     vlSelf->hmmm__DOT__RegSrc = 0U;
     vlSelf->hmmm__DOT__RegWrite = 0U;
+    vlSelf->hmmm__DOT__RegWriteDest = 0U;
     vlSelf->hmmm__DOT__alu_op = 0U;
     vlSelf->hmmm__DOT__ALUSrcA = 0U;
     vlSelf->hmmm__DOT__ALUSrcB = 0U;
     VL_WRITEF("\n\n");
     if (((((((((5U == vlSelf->hmmm__DOT__instruction_type) 
-               | (3U == vlSelf->hmmm__DOT__instruction_type)) 
-              | (4U == vlSelf->hmmm__DOT__instruction_type)) 
-             | (9U == vlSelf->hmmm__DOT__instruction_type)) 
-            | (0x14U == vlSelf->hmmm__DOT__instruction_type)) 
-           | (0x13U == vlSelf->hmmm__DOT__instruction_type)) 
-          | (0x15U == vlSelf->hmmm__DOT__instruction_type)) 
-         | (0x16U == vlSelf->hmmm__DOT__instruction_type))) {
+               | (2U == vlSelf->hmmm__DOT__instruction_type)) 
+              | (3U == vlSelf->hmmm__DOT__instruction_type)) 
+             | (4U == vlSelf->hmmm__DOT__instruction_type)) 
+            | (9U == vlSelf->hmmm__DOT__instruction_type)) 
+           | (0x14U == vlSelf->hmmm__DOT__instruction_type)) 
+          | (0x13U == vlSelf->hmmm__DOT__instruction_type)) 
+         | (0x15U == vlSelf->hmmm__DOT__instruction_type))) {
         if (VL_UNLIKELY((5U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("LOADR\n");
             vlSelf->hmmm__DOT__MemAdrSrc = 1U;
             vlSelf->hmmm__DOT__RegSrc = 1U;
             vlSelf->hmmm__DOT__RegWrite = 1U;
+        } else if (VL_UNLIKELY((2U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("READ\nWARNING: READ unimplemented.\n");
         } else if (VL_UNLIKELY((3U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("WRITE\n");
         } else if (VL_UNLIKELY((4U == vlSelf->hmmm__DOT__instruction_type))) {
@@ -466,43 +486,40 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
         } else if (VL_UNLIKELY((0x14U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("JUMPN\n");
             vlSelf->hmmm__DOT__PcSrc = 2U;
-        } else if (VL_UNLIKELY((0x13U == vlSelf->hmmm__DOT__instruction_type))) {
+        } else if ((0x13U == vlSelf->hmmm__DOT__instruction_type)) {
             VL_WRITEF("JUMPR\n");
             vlSelf->hmmm__DOT__PcSrc = 3U;
-        } else if ((0x15U == vlSelf->hmmm__DOT__instruction_type)) {
+        } else {
             VL_WRITEF("JEQZN\n");
             vlSelf->hmmm__DOT__PcSrc = 2U;
-            vlSelf->hmmm__DOT__alu_op = 0U;
-            vlSelf->hmmm__DOT__ALUSrcA = 1U;
-            vlSelf->hmmm__DOT__ALUSrcB = 2U;
-        } else {
-            VL_WRITEF("JNEZN\n");
-            vlSelf->hmmm__DOT__PcSrc = 2U;
-            vlSelf->hmmm__DOT__alu_op = 0U;
+            vlSelf->hmmm__DOT__alu_op = 2U;
             vlSelf->hmmm__DOT__ALUSrcA = 1U;
             vlSelf->hmmm__DOT__ALUSrcB = 2U;
         }
-    } else if (((((((((0x17U == vlSelf->hmmm__DOT__instruction_type) 
-                      | (0x18U == vlSelf->hmmm__DOT__instruction_type)) 
-                     | (0x19U == vlSelf->hmmm__DOT__instruction_type)) 
-                    | (0xaU == vlSelf->hmmm__DOT__instruction_type)) 
-                   | (6U == vlSelf->hmmm__DOT__instruction_type)) 
-                  | (((0xcU == vlSelf->hmmm__DOT__instruction_type) 
-                      | (0xdU == vlSelf->hmmm__DOT__instruction_type)) 
-                     | (1U == vlSelf->hmmm__DOT__instruction_type))) 
-                 | (0xbU == vlSelf->hmmm__DOT__instruction_type)) 
-                | ((0xeU == vlSelf->hmmm__DOT__instruction_type) 
-                   | (0xfU == vlSelf->hmmm__DOT__instruction_type)))) {
-        if (VL_UNLIKELY((0x17U == vlSelf->hmmm__DOT__instruction_type))) {
+    } else if (((((((((0x16U == vlSelf->hmmm__DOT__instruction_type) 
+                      | (0x17U == vlSelf->hmmm__DOT__instruction_type)) 
+                     | (0x18U == vlSelf->hmmm__DOT__instruction_type)) 
+                    | (0x19U == vlSelf->hmmm__DOT__instruction_type)) 
+                   | (0xaU == vlSelf->hmmm__DOT__instruction_type)) 
+                  | (6U == vlSelf->hmmm__DOT__instruction_type)) 
+                 | (7U == vlSelf->hmmm__DOT__instruction_type)) 
+                | (8U == vlSelf->hmmm__DOT__instruction_type))) {
+        if (VL_UNLIKELY((0x16U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("JNEZN\n");
+            vlSelf->hmmm__DOT__PcSrc = 2U;
+            vlSelf->hmmm__DOT__alu_op = 2U;
+            vlSelf->hmmm__DOT__ALUSrcA = 1U;
+            vlSelf->hmmm__DOT__ALUSrcB = 2U;
+        } else if (VL_UNLIKELY((0x17U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("JGTZN\n");
             vlSelf->hmmm__DOT__PcSrc = 2U;
-            vlSelf->hmmm__DOT__alu_op = 0U;
+            vlSelf->hmmm__DOT__alu_op = 2U;
             vlSelf->hmmm__DOT__ALUSrcA = 1U;
             vlSelf->hmmm__DOT__ALUSrcB = 2U;
         } else if (VL_UNLIKELY((0x18U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("JLTZN\n");
             vlSelf->hmmm__DOT__PcSrc = 2U;
-            vlSelf->hmmm__DOT__alu_op = 0U;
+            vlSelf->hmmm__DOT__alu_op = 2U;
             vlSelf->hmmm__DOT__ALUSrcA = 1U;
             vlSelf->hmmm__DOT__ALUSrcB = 2U;
         } else if (VL_UNLIKELY((0x19U == vlSelf->hmmm__DOT__instruction_type))) {
@@ -519,40 +536,61 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
             vlSelf->hmmm__DOT__MemAdrSrc = 1U;
             vlSelf->hmmm__DOT__MemDataSrc = 1U;
             vlSelf->hmmm__DOT__MemWrite = 1U;
-        } else if ((((0xcU == vlSelf->hmmm__DOT__instruction_type) 
-                     | (0xdU == vlSelf->hmmm__DOT__instruction_type)) 
-                    | (1U == vlSelf->hmmm__DOT__instruction_type))) {
-            if (VL_UNLIKELY((0xcU == vlSelf->hmmm__DOT__instruction_type))) {
-                VL_WRITEF("ADD\n");
-            } else if (VL_UNLIKELY((0xdU == vlSelf->hmmm__DOT__instruction_type))) {
-                VL_WRITEF("COPY\n");
-            } else if (VL_UNLIKELY((1U == vlSelf->hmmm__DOT__instruction_type))) {
-                VL_WRITEF("NOP\n");
-            }
-            vlSelf->hmmm__DOT__alu_op = 0U;
+        } else if ((7U == vlSelf->hmmm__DOT__instruction_type)) {
+            VL_WRITEF("POPR\n");
             vlSelf->hmmm__DOT__ALUSrcA = 0U;
-            vlSelf->hmmm__DOT__ALUSrcB = 0U;
+            vlSelf->hmmm__DOT__ALUSrcB = 2U;
+            vlSelf->hmmm__DOT__alu_op = 1U;
+            vlSelf->hmmm__DOT__MemAdrSrc = 2U;
             vlSelf->hmmm__DOT__RegSrc = 3U;
-            vlSelf->hmmm__DOT__RegWrite = 1U;
-        } else if (VL_UNLIKELY((0xbU == vlSelf->hmmm__DOT__instruction_type))) {
-            VL_WRITEF("ADDN\n");
-            vlSelf->hmmm__DOT__alu_op = 0U;
-            vlSelf->hmmm__DOT__ALUSrcA = 1U;
-            vlSelf->hmmm__DOT__ALUSrcB = 1U;
-            vlSelf->hmmm__DOT__RegSrc = 3U;
+            vlSelf->hmmm__DOT__RegWriteDest = 1U;
             vlSelf->hmmm__DOT__RegWrite = 1U;
         } else {
-            if (VL_UNLIKELY((0xeU == vlSelf->hmmm__DOT__instruction_type))) {
-                VL_WRITEF("SUB\n");
-            } else if (VL_UNLIKELY((0xfU == vlSelf->hmmm__DOT__instruction_type))) {
-                VL_WRITEF("NEG\n");
-            }
-            vlSelf->hmmm__DOT__alu_op = 1U;
+            VL_WRITEF("PUSHR\n");
             vlSelf->hmmm__DOT__ALUSrcA = 0U;
-            vlSelf->hmmm__DOT__ALUSrcB = 0U;
-            vlSelf->hmmm__DOT__RegSrc = 3U;
+            vlSelf->hmmm__DOT__ALUSrcB = 2U;
+            vlSelf->hmmm__DOT__alu_op = 0U;
+            vlSelf->hmmm__DOT__MemWrite = 1U;
             vlSelf->hmmm__DOT__RegWrite = 1U;
+            vlSelf->hmmm__DOT__MemDataSrc = 1U;
+            vlSelf->hmmm__DOT__MemAdrSrc = 1U;
+            vlSelf->hmmm__DOT__RegSrc = 3U;
+            vlSelf->hmmm__DOT__RegWriteDest = 1U;
         }
+    } else if ((((0xcU == vlSelf->hmmm__DOT__instruction_type) 
+                 | (0xdU == vlSelf->hmmm__DOT__instruction_type)) 
+                | (1U == vlSelf->hmmm__DOT__instruction_type))) {
+        if (VL_UNLIKELY((0xcU == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("ADD\n");
+        } else if (VL_UNLIKELY((0xdU == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("COPY\n");
+        } else if (VL_UNLIKELY((1U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("NOP\n");
+        }
+        vlSelf->hmmm__DOT__alu_op = 0U;
+        vlSelf->hmmm__DOT__ALUSrcA = 0U;
+        vlSelf->hmmm__DOT__ALUSrcB = 0U;
+        vlSelf->hmmm__DOT__RegSrc = 3U;
+        vlSelf->hmmm__DOT__RegWrite = 1U;
+    } else if (VL_UNLIKELY((0xbU == vlSelf->hmmm__DOT__instruction_type))) {
+        VL_WRITEF("ADDN\n");
+        vlSelf->hmmm__DOT__alu_op = 0U;
+        vlSelf->hmmm__DOT__ALUSrcA = 1U;
+        vlSelf->hmmm__DOT__ALUSrcB = 1U;
+        vlSelf->hmmm__DOT__RegSrc = 3U;
+        vlSelf->hmmm__DOT__RegWrite = 1U;
+    } else if (((0xeU == vlSelf->hmmm__DOT__instruction_type) 
+                | (0xfU == vlSelf->hmmm__DOT__instruction_type))) {
+        if (VL_UNLIKELY((0xeU == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("SUB\n");
+        } else if (VL_UNLIKELY((0xfU == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("NEG\n");
+        }
+        vlSelf->hmmm__DOT__alu_op = 1U;
+        vlSelf->hmmm__DOT__ALUSrcA = 0U;
+        vlSelf->hmmm__DOT__ALUSrcB = 0U;
+        vlSelf->hmmm__DOT__RegSrc = 3U;
+        vlSelf->hmmm__DOT__RegWrite = 1U;
     } else if (VL_UNLIKELY((0x10U == vlSelf->hmmm__DOT__instruction_type))) {
         VL_WRITEF("MUL\n");
         vlSelf->hmmm__DOT__alu_op = 2U;
@@ -575,22 +613,9 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
         vlSelf->hmmm__DOT__RegSrc = 3U;
         vlSelf->hmmm__DOT__RegWrite = 1U;
     }
-    vlSelf->hmmm__DOT__datapath__DOT__mem_data_address 
-        = (0xffU & ((IData)(vlSelf->hmmm__DOT__MemAdrSrc)
-                     ? ((0U == (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
-                                        >> 4U))) ? 0U
-                         : (IData)(vlSelf->__VdfgTmp_h79120594__0))
-                     : (IData)(vlSelf->hmmm__DOT__Instr)));
     vlSelf->hmmm__DOT__datapath__DOT__alu_src_a = ((IData)(vlSelf->hmmm__DOT__ALUSrcA)
                                                     ? (IData)(vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1)
-                                                    : 
-                                                   ((0U 
-                                                     == 
-                                                     (0xfU 
-                                                      & ((IData)(vlSelf->hmmm__DOT__Instr) 
-                                                         >> 4U)))
-                                                     ? 0U
-                                                     : (IData)(vlSelf->__VdfgTmp_h79120594__0)));
+                                                    : (IData)(vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_2));
     if ((0U == (IData)(vlSelf->hmmm__DOT__ALUSrcB))) {
         vlSelf->hmmm__DOT__datapath__DOT__alu_src_b 
             = ((0U == (0xfU & (IData)(vlSelf->hmmm__DOT__Instr)))
@@ -608,8 +633,8 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
                           + (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
     } else if ((1U == vlSelf->hmmm__DOT__alu_op)) {
         vlSelf->hmmm__DOT__datapath__DOT__alu_result 
-            = (0xffffU & ((IData)(1U) + ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
-                                         + (~ (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)))));
+            = (0xffffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
+                          - (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
     } else if ((2U == vlSelf->hmmm__DOT__alu_op)) {
         vlSelf->hmmm__DOT__datapath__DOT__alu_result 
             = (0xffffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
@@ -673,6 +698,33 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
                                                      : 
                                                     ((IData)(2U) 
                                                      + (IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc)))));
+    if ((0U == (IData)(vlSelf->hmmm__DOT__MemAdrSrc))) {
+        vlSelf->hmmm__DOT__datapath__DOT__mem_data_address 
+            = (0xffU & (IData)(vlSelf->hmmm__DOT__Instr));
+    } else if ((1U == (IData)(vlSelf->hmmm__DOT__MemAdrSrc))) {
+        vlSelf->hmmm__DOT__datapath__DOT__mem_data_address 
+            = (0xffU & (IData)(vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_2));
+    } else if ((2U == (IData)(vlSelf->hmmm__DOT__MemAdrSrc))) {
+        vlSelf->hmmm__DOT__datapath__DOT__mem_data_address 
+            = (0xffU & (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result));
+    }
+    vlSelf->hmmm__DOT__datapath__DOT__result = ((2U 
+                                                 & (IData)(vlSelf->hmmm__DOT__RegSrc))
+                                                 ? 
+                                                ((1U 
+                                                  & (IData)(vlSelf->hmmm__DOT__RegSrc))
+                                                  ? (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)
+                                                  : 
+                                                 (0xffU 
+                                                  & ((IData)(2U) 
+                                                     + (IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc))))
+                                                 : 
+                                                ((1U 
+                                                  & (IData)(vlSelf->hmmm__DOT__RegSrc))
+                                                  ? 
+                                                 vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
+                                                 [vlSelf->hmmm__DOT__datapath__DOT__mem_data_address]
+                                                  : (IData)(vlSelf->hmmm__DOT__datapath__DOT__ImmExt)));
 }
 
 void Vhmmm___024root___eval_nba(Vhmmm___024root* vlSelf) {
