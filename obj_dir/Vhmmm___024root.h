@@ -34,6 +34,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vhmmm___024root final : public VerilatedModul
     SData/*15:0*/ hmmm__DOT__datapath__DOT__alu_src_a;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__alu_src_b;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_1;
+    SData/*15:0*/ hmmm__DOT__datapath__DOT__ImmExt;
     SData/*15:0*/ __VdfgTmp_h79043d9e__0;
     SData/*15:0*/ __VdfgTmp_h79120594__0;
     IData/*31:0*/ hmmm__DOT__alu_op;

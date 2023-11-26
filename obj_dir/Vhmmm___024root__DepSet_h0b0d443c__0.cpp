@@ -16,8 +16,34 @@ VL_INLINE_OPT void Vhmmm___024root___ico_sequent__TOP__0(Vhmmm___024root* vlSelf
                                                  ? 0U
                                                  : 
                                                 (0xffU 
-                                                 & ((2U 
-                                                     & (IData)(vlSelf->hmmm__DOT__PcSrc))
+                                                 & ((IData)(
+                                                            (((IData)(vlSelf->hmmm__DOT__PcSrc) 
+                                                              >> 1U) 
+                                                             & ((0x15U 
+                                                                 == vlSelf->hmmm__DOT__instruction_type)
+                                                                 ? 
+                                                                (0U 
+                                                                 == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                                 : 
+                                                                ((0x16U 
+                                                                  == vlSelf->hmmm__DOT__instruction_type)
+                                                                  ? 
+                                                                 (0U 
+                                                                  != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                                  : 
+                                                                 ((0x17U 
+                                                                   == vlSelf->hmmm__DOT__instruction_type)
+                                                                   ? 
+                                                                  ((~ 
+                                                                    ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                     >> 0xfU)) 
+                                                                   & (0U 
+                                                                      != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)))
+                                                                   : 
+                                                                  ((0x18U 
+                                                                    != vlSelf->hmmm__DOT__instruction_type) 
+                                                                   | ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                      >> 0xfU)))))))
                                                      ? 
                                                     ((1U 
                                                       & (IData)(vlSelf->hmmm__DOT__PcSrc))
@@ -77,7 +103,8 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
     // Body
     __Vdlyvset__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0 = 0U;
     __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 = 0U;
-    VL_WRITEF("PC: %x\ninstruction: %x\n",8,vlSelf->hmmm__DOT__datapath__DOT__Pc,
+    VL_WRITEF("PC: %10#\ninstruction: %x\n",32,((IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc) 
+                                                >> 1U),
               16,(IData)(vlSelf->hmmm__DOT__Instr));
     if (VL_UNLIKELY((3U == vlSelf->hmmm__DOT__instruction_type))) {
         VL_WRITEF("write: %b\n",16,vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1);
@@ -109,7 +136,7 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
             vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i 
                 = ((IData)(1U) + vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i);
         }
-        VL_FINISH_MT("hmmm.sv", 451, "");
+        VL_FINISH_MT("hmmm.sv", 488, "");
     }
     if (vlSelf->hmmm__DOT__MemWrite) {
         __Vdlyvval__hmmm__DOT__datapath__DOT__mem__DOT__RAM__v0 
@@ -129,7 +156,7 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
                 : ((1U & (IData)(vlSelf->hmmm__DOT__RegSrc))
                     ? vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
                    [vlSelf->hmmm__DOT__datapath__DOT__mem_data_address]
-                    : (0xffU & (IData)(vlSelf->hmmm__DOT__Instr))));
+                    : (IData)(vlSelf->hmmm__DOT__datapath__DOT__ImmExt)));
         __Vdlyvset__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 = 1U;
         __Vdlyvdim0__hmmm__DOT__datapath__DOT__rf__DOT__registers__v0 
             = (0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
@@ -147,6 +174,15 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
     vlSelf->hmmm__DOT__Instr = vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
         [(0xffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc) 
                    >> 1U))];
+    vlSelf->hmmm__DOT__datapath__DOT__ImmExt = ((0x80U 
+                                                 & (IData)(vlSelf->hmmm__DOT__Instr))
+                                                 ? 
+                                                (0xff00U 
+                                                 | (0xffU 
+                                                    & (IData)(vlSelf->hmmm__DOT__Instr)))
+                                                 : 
+                                                (0xffU 
+                                                 & (IData)(vlSelf->hmmm__DOT__Instr)));
     vlSelf->__VdfgTmp_h79120594__0 = vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
         [(0xfU & ((IData)(vlSelf->hmmm__DOT__Instr) 
                   >> 4U))];
@@ -410,8 +446,8 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
              | (9U == vlSelf->hmmm__DOT__instruction_type)) 
             | (0x14U == vlSelf->hmmm__DOT__instruction_type)) 
            | (0x13U == vlSelf->hmmm__DOT__instruction_type)) 
-          | (0x19U == vlSelf->hmmm__DOT__instruction_type)) 
-         | (0xaU == vlSelf->hmmm__DOT__instruction_type))) {
+          | (0x15U == vlSelf->hmmm__DOT__instruction_type)) 
+         | (0x16U == vlSelf->hmmm__DOT__instruction_type))) {
         if (VL_UNLIKELY((5U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("LOADR\n");
             vlSelf->hmmm__DOT__MemAdrSrc = 1U;
@@ -434,55 +470,78 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
         } else if (VL_UNLIKELY((0x13U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("JUMPR\n");
             vlSelf->hmmm__DOT__PcSrc = 3U;
-        } else if ((0x19U == vlSelf->hmmm__DOT__instruction_type)) {
+        } else if ((0x15U == vlSelf->hmmm__DOT__instruction_type)) {
+            VL_WRITEF("JEQZN\n");
+            vlSelf->hmmm__DOT__PcSrc = 2U;
+        } else {
+            VL_WRITEF("JNEZN\n");
+            vlSelf->hmmm__DOT__PcSrc = 2U;
+        }
+    } else if (((((((((0x17U == vlSelf->hmmm__DOT__instruction_type) 
+                      | (0x18U == vlSelf->hmmm__DOT__instruction_type)) 
+                     | (0x19U == vlSelf->hmmm__DOT__instruction_type)) 
+                    | (0xaU == vlSelf->hmmm__DOT__instruction_type)) 
+                   | (6U == vlSelf->hmmm__DOT__instruction_type)) 
+                  | (((0xcU == vlSelf->hmmm__DOT__instruction_type) 
+                      | (0xdU == vlSelf->hmmm__DOT__instruction_type)) 
+                     | (1U == vlSelf->hmmm__DOT__instruction_type))) 
+                 | (0xbU == vlSelf->hmmm__DOT__instruction_type)) 
+                | ((0xeU == vlSelf->hmmm__DOT__instruction_type) 
+                   | (0xfU == vlSelf->hmmm__DOT__instruction_type)))) {
+        if (VL_UNLIKELY((0x17U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("JGTZN\n");
+            vlSelf->hmmm__DOT__PcSrc = 2U;
+        } else if (VL_UNLIKELY((0x18U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("JLTZN\n");
+            vlSelf->hmmm__DOT__PcSrc = 2U;
+        } else if (VL_UNLIKELY((0x19U == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("CALLN\n");
             vlSelf->hmmm__DOT__PcSrc = 2U;
             vlSelf->hmmm__DOT__RegSrc = 2U;
             vlSelf->hmmm__DOT__RegWrite = 1U;
-        } else {
+        } else if (VL_UNLIKELY((0xaU == vlSelf->hmmm__DOT__instruction_type))) {
             VL_WRITEF("STOREN\n");
             vlSelf->hmmm__DOT__MemDataSrc = 1U;
             vlSelf->hmmm__DOT__MemWrite = 1U;
+        } else if (VL_UNLIKELY((6U == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("STORER\n");
+            vlSelf->hmmm__DOT__MemAdrSrc = 1U;
+            vlSelf->hmmm__DOT__MemDataSrc = 1U;
+            vlSelf->hmmm__DOT__MemWrite = 1U;
+        } else if ((((0xcU == vlSelf->hmmm__DOT__instruction_type) 
+                     | (0xdU == vlSelf->hmmm__DOT__instruction_type)) 
+                    | (1U == vlSelf->hmmm__DOT__instruction_type))) {
+            if (VL_UNLIKELY((0xcU == vlSelf->hmmm__DOT__instruction_type))) {
+                VL_WRITEF("ADD\n");
+            } else if (VL_UNLIKELY((0xdU == vlSelf->hmmm__DOT__instruction_type))) {
+                VL_WRITEF("COPY\n");
+            } else if (VL_UNLIKELY((1U == vlSelf->hmmm__DOT__instruction_type))) {
+                VL_WRITEF("NOP\n");
+            }
+            vlSelf->hmmm__DOT__alu_op = 0U;
+            vlSelf->hmmm__DOT__ALUSrcA = 0U;
+            vlSelf->hmmm__DOT__ALUSrcB = 0U;
+            vlSelf->hmmm__DOT__RegSrc = 3U;
+            vlSelf->hmmm__DOT__RegWrite = 1U;
+        } else if (VL_UNLIKELY((0xbU == vlSelf->hmmm__DOT__instruction_type))) {
+            VL_WRITEF("ADDN\n");
+            vlSelf->hmmm__DOT__alu_op = 0U;
+            vlSelf->hmmm__DOT__ALUSrcA = 1U;
+            vlSelf->hmmm__DOT__ALUSrcB = 1U;
+            vlSelf->hmmm__DOT__RegSrc = 3U;
+            vlSelf->hmmm__DOT__RegWrite = 1U;
+        } else {
+            if (VL_UNLIKELY((0xeU == vlSelf->hmmm__DOT__instruction_type))) {
+                VL_WRITEF("SUB\n");
+            } else if (VL_UNLIKELY((0xfU == vlSelf->hmmm__DOT__instruction_type))) {
+                VL_WRITEF("NEG\n");
+            }
+            vlSelf->hmmm__DOT__alu_op = 1U;
+            vlSelf->hmmm__DOT__ALUSrcA = 0U;
+            vlSelf->hmmm__DOT__ALUSrcB = 0U;
+            vlSelf->hmmm__DOT__RegSrc = 3U;
+            vlSelf->hmmm__DOT__RegWrite = 1U;
         }
-    } else if (VL_UNLIKELY((6U == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("STORER\n");
-        vlSelf->hmmm__DOT__MemAdrSrc = 1U;
-        vlSelf->hmmm__DOT__MemDataSrc = 1U;
-        vlSelf->hmmm__DOT__MemWrite = 1U;
-    } else if ((((0xcU == vlSelf->hmmm__DOT__instruction_type) 
-                 | (0xdU == vlSelf->hmmm__DOT__instruction_type)) 
-                | (1U == vlSelf->hmmm__DOT__instruction_type))) {
-        if (VL_UNLIKELY((0xcU == vlSelf->hmmm__DOT__instruction_type))) {
-            VL_WRITEF("ADD\n");
-        } else if (VL_UNLIKELY((0xdU == vlSelf->hmmm__DOT__instruction_type))) {
-            VL_WRITEF("COPY\n");
-        } else if (VL_UNLIKELY((1U == vlSelf->hmmm__DOT__instruction_type))) {
-            VL_WRITEF("NOP\n");
-        }
-        vlSelf->hmmm__DOT__alu_op = 0U;
-        vlSelf->hmmm__DOT__ALUSrcA = 0U;
-        vlSelf->hmmm__DOT__ALUSrcB = 0U;
-        vlSelf->hmmm__DOT__RegSrc = 3U;
-        vlSelf->hmmm__DOT__RegWrite = 1U;
-    } else if (VL_UNLIKELY((0xbU == vlSelf->hmmm__DOT__instruction_type))) {
-        VL_WRITEF("ADDN\n");
-        vlSelf->hmmm__DOT__alu_op = 0U;
-        vlSelf->hmmm__DOT__ALUSrcA = 1U;
-        vlSelf->hmmm__DOT__ALUSrcB = 1U;
-        vlSelf->hmmm__DOT__RegSrc = 3U;
-        vlSelf->hmmm__DOT__RegWrite = 1U;
-    } else if (((0xeU == vlSelf->hmmm__DOT__instruction_type) 
-                | (0xfU == vlSelf->hmmm__DOT__instruction_type))) {
-        if (VL_UNLIKELY((0xeU == vlSelf->hmmm__DOT__instruction_type))) {
-            VL_WRITEF("SUB\n");
-        } else if (VL_UNLIKELY((0xfU == vlSelf->hmmm__DOT__instruction_type))) {
-            VL_WRITEF("NEG\n");
-        }
-        vlSelf->hmmm__DOT__alu_op = 1U;
-        vlSelf->hmmm__DOT__ALUSrcA = 0U;
-        vlSelf->hmmm__DOT__ALUSrcB = 0U;
-        vlSelf->hmmm__DOT__RegSrc = 3U;
-        vlSelf->hmmm__DOT__RegWrite = 1U;
     } else if (VL_UNLIKELY((0x10U == vlSelf->hmmm__DOT__instruction_type))) {
         VL_WRITEF("MUL\n");
         vlSelf->hmmm__DOT__alu_op = 2U;
@@ -511,12 +570,80 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
                                         >> 4U))) ? 0U
                          : (IData)(vlSelf->__VdfgTmp_h79120594__0))
                      : (IData)(vlSelf->hmmm__DOT__Instr)));
+    vlSelf->hmmm__DOT__datapath__DOT__alu_src_a = ((IData)(vlSelf->hmmm__DOT__ALUSrcA)
+                                                    ? (IData)(vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1)
+                                                    : 
+                                                   ((0U 
+                                                     == 
+                                                     (0xfU 
+                                                      & ((IData)(vlSelf->hmmm__DOT__Instr) 
+                                                         >> 4U)))
+                                                     ? 0U
+                                                     : (IData)(vlSelf->__VdfgTmp_h79120594__0)));
+    vlSelf->hmmm__DOT__datapath__DOT__alu_src_b = ((IData)(vlSelf->hmmm__DOT__ALUSrcB)
+                                                    ? (IData)(vlSelf->hmmm__DOT__datapath__DOT__ImmExt)
+                                                    : 
+                                                   ((0U 
+                                                     == 
+                                                     (0xfU 
+                                                      & (IData)(vlSelf->hmmm__DOT__Instr)))
+                                                     ? 0U
+                                                     : 
+                                                    vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
+                                                    [
+                                                    (0xfU 
+                                                     & (IData)(vlSelf->hmmm__DOT__Instr))]));
+    if ((0U == vlSelf->hmmm__DOT__alu_op)) {
+        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
+            = (0xffffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
+                          + (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
+    } else if ((1U == vlSelf->hmmm__DOT__alu_op)) {
+        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
+            = (0xffffU & ((IData)(1U) + ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
+                                         + (~ (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)))));
+    } else if ((2U == vlSelf->hmmm__DOT__alu_op)) {
+        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
+            = (0xffffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
+                          * (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
+    } else if ((3U == vlSelf->hmmm__DOT__alu_op)) {
+        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
+            = (0xffffU & VL_DIV_III(16, (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a), (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
+    } else if ((4U == vlSelf->hmmm__DOT__alu_op)) {
+        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
+            = (0xffffU & VL_MODDIV_III(16, (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a), (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
+    }
     vlSelf->hmmm__DOT__datapath__DOT__PcNext = ((IData)(vlSelf->reset)
                                                  ? 0U
                                                  : 
                                                 (0xffU 
-                                                 & ((2U 
-                                                     & (IData)(vlSelf->hmmm__DOT__PcSrc))
+                                                 & ((IData)(
+                                                            (((IData)(vlSelf->hmmm__DOT__PcSrc) 
+                                                              >> 1U) 
+                                                             & ((0x15U 
+                                                                 == vlSelf->hmmm__DOT__instruction_type)
+                                                                 ? 
+                                                                (0U 
+                                                                 == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                                 : 
+                                                                ((0x16U 
+                                                                  == vlSelf->hmmm__DOT__instruction_type)
+                                                                  ? 
+                                                                 (0U 
+                                                                  != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                                  : 
+                                                                 ((0x17U 
+                                                                   == vlSelf->hmmm__DOT__instruction_type)
+                                                                   ? 
+                                                                  ((~ 
+                                                                    ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                     >> 0xfU)) 
+                                                                   & (0U 
+                                                                      != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)))
+                                                                   : 
+                                                                  ((0x18U 
+                                                                    != vlSelf->hmmm__DOT__instruction_type) 
+                                                                   | ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                      >> 0xfU)))))))
                                                      ? 
                                                     ((1U 
                                                       & (IData)(vlSelf->hmmm__DOT__PcSrc))
@@ -538,50 +665,6 @@ VL_INLINE_OPT void Vhmmm___024root___nba_sequent__TOP__0(Vhmmm___024root* vlSelf
                                                      : 
                                                     ((IData)(2U) 
                                                      + (IData)(vlSelf->hmmm__DOT__datapath__DOT__Pc)))));
-    vlSelf->hmmm__DOT__datapath__DOT__alu_src_b = ((IData)(vlSelf->hmmm__DOT__ALUSrcB)
-                                                    ? 
-                                                   (0xffU 
-                                                    & (IData)(vlSelf->hmmm__DOT__Instr))
-                                                    : 
-                                                   ((0U 
-                                                     == 
-                                                     (0xfU 
-                                                      & (IData)(vlSelf->hmmm__DOT__Instr)))
-                                                     ? 0U
-                                                     : 
-                                                    vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
-                                                    [
-                                                    (0xfU 
-                                                     & (IData)(vlSelf->hmmm__DOT__Instr))]));
-    vlSelf->hmmm__DOT__datapath__DOT__alu_src_a = ((IData)(vlSelf->hmmm__DOT__ALUSrcA)
-                                                    ? 
-                                                   ((0U 
-                                                     == 
-                                                     (0xfU 
-                                                      & ((IData)(vlSelf->hmmm__DOT__Instr) 
-                                                         >> 4U)))
-                                                     ? 0U
-                                                     : (IData)(vlSelf->__VdfgTmp_h79120594__0))
-                                                    : (IData)(vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1));
-    if ((0U == vlSelf->hmmm__DOT__alu_op)) {
-        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
-            = (0xffffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
-                          + (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
-    } else if ((1U == vlSelf->hmmm__DOT__alu_op)) {
-        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
-            = (0xffffU & ((IData)(1U) + ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
-                                         + (~ (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)))));
-    } else if ((2U == vlSelf->hmmm__DOT__alu_op)) {
-        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
-            = (0xffffU & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a) 
-                          * (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
-    } else if ((3U == vlSelf->hmmm__DOT__alu_op)) {
-        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
-            = (0xffffU & VL_DIV_III(16, (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a), (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
-    } else if ((4U == vlSelf->hmmm__DOT__alu_op)) {
-        vlSelf->hmmm__DOT__datapath__DOT__alu_result 
-            = (0xffffU & VL_MODDIV_III(16, (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a), (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b)));
-    }
 }
 
 void Vhmmm___024root___eval_nba(Vhmmm___024root* vlSelf) {

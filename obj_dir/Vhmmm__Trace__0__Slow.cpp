@@ -11,11 +11,11 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     // Init
     const int c = vlSymsp->__Vm_baseCode;
     // Body
-    tracep->declBit(c+49,"clk", false,-1);
-    tracep->declBit(c+50,"reset", false,-1);
+    tracep->declBit(c+51,"clk", false,-1);
+    tracep->declBit(c+52,"reset", false,-1);
     tracep->pushNamePrefix("hmmm ");
-    tracep->declBit(c+49,"clk", false,-1);
-    tracep->declBit(c+50,"reset", false,-1);
+    tracep->declBit(c+51,"clk", false,-1);
+    tracep->declBit(c+52,"reset", false,-1);
     tracep->declBus(c+1,"Instr", false,-1, 15,0);
     tracep->declBus(c+2,"RegSrc", false,-1, 1,0);
     tracep->declBus(c+3,"PcSrc", false,-1, 1,0);
@@ -41,8 +41,8 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBus(c+11,"instruction_type", false,-1, 31,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("datapath ");
-    tracep->declBit(c+49,"clk", false,-1);
-    tracep->declBit(c+50,"reset", false,-1);
+    tracep->declBit(c+51,"clk", false,-1);
+    tracep->declBit(c+52,"reset", false,-1);
     tracep->declBit(c+4,"MemWrite", false,-1);
     tracep->declBit(c+5,"RegWrite", false,-1);
     tracep->declBit(c+6,"MemAdrSrc", false,-1);
@@ -56,7 +56,7 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBus(c+1,"Instr", false,-1, 15,0);
     tracep->declBus(c+12,"Pc", false,-1, 7,0);
     tracep->declBus(c+13,"PcPlus2", false,-1, 7,0);
-    tracep->declBus(c+51,"PcNext", false,-1, 7,0);
+    tracep->declBus(c+53,"PcNext", false,-1, 7,0);
     tracep->declBus(c+14,"PcTarget", false,-1, 7,0);
     tracep->declBus(c+15,"Imm", false,-1, 7,0);
     tracep->declBus(c+16,"mem_data_address", false,-1, 7,0);
@@ -74,6 +74,8 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBus(c+28,"rZ", false,-1, 3,0);
     tracep->declBit(c+29,"zero", false,-1);
     tracep->declBit(c+30,"sign", false,-1);
+    tracep->declBit(c+31,"take_jump", false,-1);
+    tracep->declBus(c+32,"ImmExt", false,-1, 15,0);
     tracep->pushNamePrefix("alu ");
     tracep->declBus(c+10,"alu_op", false,-1, 31,0);
     tracep->declBus(c+19,"src_a", false,-1, 15,0);
@@ -83,7 +85,7 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBit(c+30,"sign", false,-1);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("mem ");
-    tracep->declBit(c+49,"clk", false,-1);
+    tracep->declBit(c+51,"clk", false,-1);
     tracep->declBit(c+4,"write_en", false,-1);
     tracep->declBus(c+12,"instruction_address", false,-1, 7,0);
     tracep->declBus(c+16,"data_address", false,-1, 7,0);
@@ -92,7 +94,7 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBus(c+24,"read_data", false,-1, 15,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("rf ");
-    tracep->declBit(c+49,"clk", false,-1);
+    tracep->declBit(c+51,"clk", false,-1);
     tracep->declBus(c+26,"address_1", false,-1, 3,0);
     tracep->declBus(c+27,"address_2", false,-1, 3,0);
     tracep->declBus(c+28,"address_3", false,-1, 3,0);
@@ -102,14 +104,14 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBus(c+22,"read_data_2", false,-1, 15,0);
     tracep->declBus(c+23,"read_data_3", false,-1, 15,0);
     for (int i = 0; i < 16; ++i) {
-        tracep->declBus(c+31+i*1,"registers", true,(i+0), 15,0);
+        tracep->declBus(c+33+i*1,"registers", true,(i+0), 15,0);
     }
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("unnamedblk1 ");
-    tracep->declBus(c+47,"i", false,-1, 31,0);
+    tracep->declBus(c+49,"i", false,-1, 31,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("unnamedblk2 ");
-    tracep->declBus(c+48,"i", false,-1, 31,0);
+    tracep->declBus(c+50,"i", false,-1, 31,0);
     tracep->popNamePrefix(3);
 }
 
@@ -188,7 +190,7 @@ VL_ATTR_COLD void Vhmmm___024root__trace_full_sub_0(Vhmmm___024root* vlSelf, Ver
                                : ((1U & (IData)(vlSelf->hmmm__DOT__RegSrc))
                                    ? vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
                                   [vlSelf->hmmm__DOT__datapath__DOT__mem_data_address]
-                                   : (0xffU & (IData)(vlSelf->hmmm__DOT__Instr))))),16);
+                                   : (IData)(vlSelf->hmmm__DOT__datapath__DOT__ImmExt)))),16);
     bufp->fullSData(oldp+18,(vlSelf->hmmm__DOT__datapath__DOT__alu_result),16);
     bufp->fullSData(oldp+19,(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a),16);
     bufp->fullSData(oldp+20,(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b),16);
@@ -212,29 +214,69 @@ VL_ATTR_COLD void Vhmmm___024root__trace_full_sub_0(Vhmmm___024root* vlSelf, Ver
     bufp->fullBit(oldp+29,((0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))));
     bufp->fullBit(oldp+30,((1U & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
                                   >> 0xfU))));
-    bufp->fullSData(oldp+31,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[0]),16);
-    bufp->fullSData(oldp+32,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[1]),16);
-    bufp->fullSData(oldp+33,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[2]),16);
-    bufp->fullSData(oldp+34,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[3]),16);
-    bufp->fullSData(oldp+35,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[4]),16);
-    bufp->fullSData(oldp+36,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[5]),16);
-    bufp->fullSData(oldp+37,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[6]),16);
-    bufp->fullSData(oldp+38,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[7]),16);
-    bufp->fullSData(oldp+39,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[8]),16);
-    bufp->fullSData(oldp+40,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[9]),16);
-    bufp->fullSData(oldp+41,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[10]),16);
-    bufp->fullSData(oldp+42,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[11]),16);
-    bufp->fullSData(oldp+43,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[12]),16);
-    bufp->fullSData(oldp+44,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[13]),16);
-    bufp->fullSData(oldp+45,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[14]),16);
-    bufp->fullSData(oldp+46,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[15]),16);
-    bufp->fullIData(oldp+47,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk1__DOT__i),32);
-    bufp->fullIData(oldp+48,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i),32);
-    bufp->fullBit(oldp+49,(vlSelf->clk));
-    bufp->fullBit(oldp+50,(vlSelf->reset));
-    bufp->fullCData(oldp+51,(((IData)(vlSelf->reset)
-                               ? 0U : (0xffU & ((2U 
-                                                 & (IData)(vlSelf->hmmm__DOT__PcSrc))
+    bufp->fullBit(oldp+31,((1U & ((0x15U == vlSelf->hmmm__DOT__instruction_type)
+                                   ? (0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                   : ((0x16U == vlSelf->hmmm__DOT__instruction_type)
+                                       ? (0U != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                       : ((0x17U == vlSelf->hmmm__DOT__instruction_type)
+                                           ? ((~ ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                  >> 0xfU)) 
+                                              & (0U 
+                                                 != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)))
+                                           : ((0x18U 
+                                               != vlSelf->hmmm__DOT__instruction_type) 
+                                              | ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                 >> 0xfU))))))));
+    bufp->fullSData(oldp+32,(vlSelf->hmmm__DOT__datapath__DOT__ImmExt),16);
+    bufp->fullSData(oldp+33,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[0]),16);
+    bufp->fullSData(oldp+34,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[1]),16);
+    bufp->fullSData(oldp+35,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[2]),16);
+    bufp->fullSData(oldp+36,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[3]),16);
+    bufp->fullSData(oldp+37,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[4]),16);
+    bufp->fullSData(oldp+38,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[5]),16);
+    bufp->fullSData(oldp+39,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[6]),16);
+    bufp->fullSData(oldp+40,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[7]),16);
+    bufp->fullSData(oldp+41,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[8]),16);
+    bufp->fullSData(oldp+42,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[9]),16);
+    bufp->fullSData(oldp+43,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[10]),16);
+    bufp->fullSData(oldp+44,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[11]),16);
+    bufp->fullSData(oldp+45,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[12]),16);
+    bufp->fullSData(oldp+46,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[13]),16);
+    bufp->fullSData(oldp+47,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[14]),16);
+    bufp->fullSData(oldp+48,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[15]),16);
+    bufp->fullIData(oldp+49,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk1__DOT__i),32);
+    bufp->fullIData(oldp+50,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i),32);
+    bufp->fullBit(oldp+51,(vlSelf->clk));
+    bufp->fullBit(oldp+52,(vlSelf->reset));
+    bufp->fullCData(oldp+53,(((IData)(vlSelf->reset)
+                               ? 0U : (0xffU & ((IData)(
+                                                        (((IData)(vlSelf->hmmm__DOT__PcSrc) 
+                                                          >> 1U) 
+                                                         & ((0x15U 
+                                                             == vlSelf->hmmm__DOT__instruction_type)
+                                                             ? 
+                                                            (0U 
+                                                             == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                             : 
+                                                            ((0x16U 
+                                                              == vlSelf->hmmm__DOT__instruction_type)
+                                                              ? 
+                                                             (0U 
+                                                              != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                              : 
+                                                             ((0x17U 
+                                                               == vlSelf->hmmm__DOT__instruction_type)
+                                                               ? 
+                                                              ((~ 
+                                                                ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                 >> 0xfU)) 
+                                                               & (0U 
+                                                                  != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)))
+                                                               : 
+                                                              ((0x18U 
+                                                                != vlSelf->hmmm__DOT__instruction_type) 
+                                                               | ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                  >> 0xfU)))))))
                                                  ? 
                                                 ((1U 
                                                   & (IData)(vlSelf->hmmm__DOT__PcSrc))

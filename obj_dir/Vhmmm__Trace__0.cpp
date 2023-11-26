@@ -61,7 +61,7 @@ void Vhmmm___024root__trace_chg_sub_0(Vhmmm___024root* vlSelf, VerilatedVcd::Buf
                                   : ((1U & (IData)(vlSelf->hmmm__DOT__RegSrc))
                                       ? vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
                                      [vlSelf->hmmm__DOT__datapath__DOT__mem_data_address]
-                                      : (0xffU & (IData)(vlSelf->hmmm__DOT__Instr))))),16);
+                                      : (IData)(vlSelf->hmmm__DOT__datapath__DOT__ImmExt)))),16);
         bufp->chgSData(oldp+17,(vlSelf->hmmm__DOT__datapath__DOT__alu_result),16);
         bufp->chgSData(oldp+18,(vlSelf->hmmm__DOT__datapath__DOT__alu_src_a),16);
         bufp->chgSData(oldp+19,(vlSelf->hmmm__DOT__datapath__DOT__alu_src_b),16);
@@ -85,30 +85,72 @@ void Vhmmm___024root__trace_chg_sub_0(Vhmmm___024root* vlSelf, VerilatedVcd::Buf
         bufp->chgBit(oldp+28,((0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))));
         bufp->chgBit(oldp+29,((1U & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
                                      >> 0xfU))));
-        bufp->chgSData(oldp+30,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[0]),16);
-        bufp->chgSData(oldp+31,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[1]),16);
-        bufp->chgSData(oldp+32,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[2]),16);
-        bufp->chgSData(oldp+33,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[3]),16);
-        bufp->chgSData(oldp+34,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[4]),16);
-        bufp->chgSData(oldp+35,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[5]),16);
-        bufp->chgSData(oldp+36,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[6]),16);
-        bufp->chgSData(oldp+37,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[7]),16);
-        bufp->chgSData(oldp+38,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[8]),16);
-        bufp->chgSData(oldp+39,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[9]),16);
-        bufp->chgSData(oldp+40,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[10]),16);
-        bufp->chgSData(oldp+41,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[11]),16);
-        bufp->chgSData(oldp+42,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[12]),16);
-        bufp->chgSData(oldp+43,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[13]),16);
-        bufp->chgSData(oldp+44,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[14]),16);
-        bufp->chgSData(oldp+45,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[15]),16);
-        bufp->chgIData(oldp+46,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk1__DOT__i),32);
-        bufp->chgIData(oldp+47,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i),32);
+        bufp->chgBit(oldp+30,((1U & ((0x15U == vlSelf->hmmm__DOT__instruction_type)
+                                      ? (0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                      : ((0x16U == vlSelf->hmmm__DOT__instruction_type)
+                                          ? (0U != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                          : ((0x17U 
+                                              == vlSelf->hmmm__DOT__instruction_type)
+                                              ? ((~ 
+                                                  ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                   >> 0xfU)) 
+                                                 & (0U 
+                                                    != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)))
+                                              : ((0x18U 
+                                                  != vlSelf->hmmm__DOT__instruction_type) 
+                                                 | ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                    >> 0xfU))))))));
+        bufp->chgSData(oldp+31,(vlSelf->hmmm__DOT__datapath__DOT__ImmExt),16);
+        bufp->chgSData(oldp+32,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[0]),16);
+        bufp->chgSData(oldp+33,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[1]),16);
+        bufp->chgSData(oldp+34,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[2]),16);
+        bufp->chgSData(oldp+35,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[3]),16);
+        bufp->chgSData(oldp+36,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[4]),16);
+        bufp->chgSData(oldp+37,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[5]),16);
+        bufp->chgSData(oldp+38,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[6]),16);
+        bufp->chgSData(oldp+39,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[7]),16);
+        bufp->chgSData(oldp+40,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[8]),16);
+        bufp->chgSData(oldp+41,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[9]),16);
+        bufp->chgSData(oldp+42,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[10]),16);
+        bufp->chgSData(oldp+43,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[11]),16);
+        bufp->chgSData(oldp+44,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[12]),16);
+        bufp->chgSData(oldp+45,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[13]),16);
+        bufp->chgSData(oldp+46,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[14]),16);
+        bufp->chgSData(oldp+47,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[15]),16);
+        bufp->chgIData(oldp+48,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk1__DOT__i),32);
+        bufp->chgIData(oldp+49,(vlSelf->hmmm__DOT__datapath__DOT__unnamedblk2__DOT__i),32);
     }
-    bufp->chgBit(oldp+48,(vlSelf->clk));
-    bufp->chgBit(oldp+49,(vlSelf->reset));
-    bufp->chgCData(oldp+50,(((IData)(vlSelf->reset)
-                              ? 0U : (0xffU & ((2U 
-                                                & (IData)(vlSelf->hmmm__DOT__PcSrc))
+    bufp->chgBit(oldp+50,(vlSelf->clk));
+    bufp->chgBit(oldp+51,(vlSelf->reset));
+    bufp->chgCData(oldp+52,(((IData)(vlSelf->reset)
+                              ? 0U : (0xffU & ((IData)(
+                                                       (((IData)(vlSelf->hmmm__DOT__PcSrc) 
+                                                         >> 1U) 
+                                                        & ((0x15U 
+                                                            == vlSelf->hmmm__DOT__instruction_type)
+                                                            ? 
+                                                           (0U 
+                                                            == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                            : 
+                                                           ((0x16U 
+                                                             == vlSelf->hmmm__DOT__instruction_type)
+                                                             ? 
+                                                            (0U 
+                                                             != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))
+                                                             : 
+                                                            ((0x17U 
+                                                              == vlSelf->hmmm__DOT__instruction_type)
+                                                              ? 
+                                                             ((~ 
+                                                               ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                >> 0xfU)) 
+                                                              & (0U 
+                                                                 != (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)))
+                                                              : 
+                                                             ((0x18U 
+                                                               != vlSelf->hmmm__DOT__instruction_type) 
+                                                              | ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
+                                                                 >> 0xfU)))))))
                                                 ? (
                                                    (1U 
                                                     & (IData)(vlSelf->hmmm__DOT__PcSrc))

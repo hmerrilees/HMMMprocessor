@@ -219,6 +219,7 @@ module Controller (
   // MemAdrSrc:
   //    0: from immediate
   //    1: from register file (data read 2, rY) 
+  //
   // PcSrc:
   //    00: from PC + 2
   //    10: from PCTarget (immediate)
@@ -283,6 +284,26 @@ module Controller (
         $display("JUMPR");
         //Set program counter to address in rX
         PcSrc = 2'b11;  // next program counter is sourced from the contents of register rX
+      end
+      JEQZN: begin
+        $display("JEQZN");
+        // If the contents of register rX is zero, set program counter to address N
+        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
+      end
+      JNEZN: begin
+        $display("JNEZN");
+        // If the contents of register rX is not zero, set program counter to address N
+        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
+      end
+      JGTZN: begin
+        $display("JGTZN");
+        // If the contents of register rX is greater than zero, set program counter to address N
+        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
+      end
+      JLTZN: begin
+        $display("JLTZN");
+        // If the contents of register rX is less than zero, set program counter to address N
+        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
       end
       CALLN: begin
         $display("CALLN");
@@ -409,9 +430,9 @@ module Datapath (
 
   logic [3:0] rX, rY, rZ;
 
-  assign rX = Instr[11:8];
-  assign rY = Instr[7:4];
-  assign rZ = Instr[3:0];
+  assign rX  = Instr[11:8];
+  assign rY  = Instr[7:4];
+  assign rZ  = Instr[3:0];
 
   assign Imm = Instr[7:0];
 
@@ -420,19 +441,34 @@ module Datapath (
   // ============== PC logic ============== 
   always_ff @(posedge clk) Pc <= PcNext;
 
+
+
+  logic take_jump;
+
+  always_comb
+    case (instruction_type)
+      JEQZN:   take_jump = zero;
+      JNEZN:   take_jump = ~zero;
+      JGTZN:   take_jump = ~sign & ~zero;
+      JLTZN:   take_jump = sign;
+      JUMPR:   take_jump = 1;
+      JUMPN:   take_jump = 1;
+      default: take_jump = 1;
+    endcase
+
   always_comb
     if (reset) PcNext = 0;
-    else if (PcSrc[1]) PcNext = PcTarget;
+    else if (PcSrc[1] & take_jump) PcNext = PcTarget;
     else PcNext = PcPlus2;  // word alignment is 2 bytes
 
   assign PcTarget = PcSrc[0] ? rf_read_data_1[7:0] * 2 : Imm * 2;  // todo check
-  assign PcPlus2 = Pc + 2;
+  assign PcPlus2  = Pc + 2;
 
 
   // cheat to handle status prints, write and halt
 
   always_ff @(posedge clk) begin
-    $display("PC: %h", Pc);
+    $display("PC: %d", Pc/2);
     $display("instruction: %h", Instr);
 
     if (instruction_type == WRITE) $display("write: %b", rf_read_data_1);
@@ -468,9 +504,12 @@ module Datapath (
   assign mem_data_address = MemAdrSrc ? rf_read_data_2[7:0] : Imm;
   assign mem_write_data   = MemDataSrc ? rf_read_data_1 : alu_result;
 
+  logic [15:0] ImmExt;
+  assign ImmExt = Imm[7] ? {8'b11111111, Imm} : {8'b0, Imm};
+
   always_comb
     case (RegSrc)
-      2'b00: result = {8'b0, Imm};
+      2'b00: result = ImmExt;
       2'b01: result = mem_read_data;
       2'b10: result = {8'b0, PcPlus2};
       2'b11: result = alu_result;
@@ -500,8 +539,8 @@ module Datapath (
       .alu_result(alu_result)
   );
 
-  assign alu_src_a = ALUSrcA ? rf_read_data_2 : rf_read_data_1;
-  assign alu_src_b = ALUSrcB ? {8'b0, Imm} : rf_read_data_3;
+  assign alu_src_a = ALUSrcA ? rf_read_data_1 : rf_read_data_2;
+  assign alu_src_b = ALUSrcB ? ImmExt : rf_read_data_3;
 
 
 endmodule
@@ -528,3 +567,4 @@ module ALU (
   assign sign = alu_result[15];
 
 endmodule
+
