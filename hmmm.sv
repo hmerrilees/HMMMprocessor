@@ -525,7 +525,7 @@ module Datapath (
     else if (PcSrc[1] & take_jump) PcNext = PcTarget;
     else PcNext = PcPlus2;  // word alignment is 2 bytes
 
-  assign PcTarget = PcSrc[0] ? rf_read_data_1[7:0] : Imm * 2;  // todo check
+  assign PcTarget = PcSrc[0] ? rf_read_data_1[7:0] : Imm << 1;  // todo check
   assign PcPlus2  = Pc + 2;
 
 
