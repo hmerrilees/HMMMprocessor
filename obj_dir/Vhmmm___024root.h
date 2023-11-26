@@ -16,13 +16,13 @@ class alignas(VL_CACHE_LINE_BYTES) Vhmmm___024root final : public VerilatedModul
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(reset,0,0);
-    CData/*1:0*/ hmmm__DOT__RegSrc;
+    CData/*1:0*/ hmmm__DOT__RegSrcX;
     CData/*1:0*/ hmmm__DOT__PcSrc;
     CData/*1:0*/ hmmm__DOT__MemAdrSrc;
     CData/*1:0*/ hmmm__DOT__ALUSrcB;
     CData/*0:0*/ hmmm__DOT__MemWrite;
-    CData/*0:0*/ hmmm__DOT__RegWrite;
-    CData/*0:0*/ hmmm__DOT__RegWriteDest;
+    CData/*0:0*/ hmmm__DOT__RegWriteX;
+    CData/*0:0*/ hmmm__DOT__RegWriteY;
     CData/*0:0*/ hmmm__DOT__MemDataSrc;
     CData/*0:0*/ hmmm__DOT__ALUSrcA;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__Pc;
@@ -37,7 +37,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vhmmm___024root final : public VerilatedModul
     SData/*15:0*/ hmmm__DOT__datapath__DOT__alu_src_b;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_1;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_2;
-    SData/*15:0*/ hmmm__DOT__datapath__DOT__ImmExt;
+    SData/*15:0*/ hmmm__DOT__datapath__DOT__imm_ext;
     SData/*15:0*/ __VdfgTmp_h79043d9e__0;
     IData/*31:0*/ hmmm__DOT__alu_op;
     IData/*31:0*/ hmmm__DOT__instruction_type;
