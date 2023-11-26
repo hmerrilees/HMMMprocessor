@@ -1,6 +1,7 @@
 /* verilator lint_off CASEOVERLAP */
 /* verilator lint_off DECLFILENAME */
 /* verilator lint_off UNUSEDSIGNAL */
+/* verilator lint_off CASEINCOMPLETE */
 
 typedef enum {
   HALT,
@@ -45,8 +46,8 @@ module hmmm (
     reset
 );
   logic [15:0] Instr;
-  logic [1:0] RegSrc, PcSrc;
-  logic MemWrite, RegWrite, MemAdrSrc, MemDataSrc, ALUSrcA, ALUSrcB;
+  logic [1:0] RegSrc, PcSrc, ALUSrcB;
+  logic MemWrite, RegWrite, MemAdrSrc, MemDataSrc, ALUSrcA;
 
   alu_op_t alu_op;
   instr_t  instruction_type;
@@ -134,8 +135,8 @@ module Controller (
     MemAdrSrc,
     MemDataSrc,
     ALUSrcA,
-    ALUSrcB,
     output logic [1:0] RegSrc,
+    ALUSrcB,
     PcSrc,
     output instr_t instruction_type
 );
@@ -233,6 +234,11 @@ module Controller (
   //    0: from register file (data read 2, rY)
   //    1: from register file (data read 1, rX)
   //
+  //  AluSrcB: // TODO check
+  //    0: from register file (data read 3, rZ)
+  //    1: from immediate
+  //    2: from 0
+  //
 
 
   always_comb begin
@@ -245,7 +251,7 @@ module Controller (
     RegWrite = 0;  // disable write to register file
     alu_op = ALU_ADD;  // default ALU operation is ADD
     ALUSrcA = 0;  // default ALU source A is the contents of register rX
-    ALUSrcB = 0;  // default ALU source B is the contents of register rY
+    ALUSrcB = 2'b00;  // default ALU source B is the contents of register rY
 
     $display("\n");
     case (instruction_type)
@@ -288,22 +294,39 @@ module Controller (
       JEQZN: begin
         $display("JEQZN");
         // If the contents of register rX is zero, set program counter to address N
-        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        PcSrc   = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        // We will add rx + 0 so we can use the comparison logic in the ALU
+        alu_op  = ALU_ADD;  // ALU operation is ADD
+        ALUSrcA = 1;  // default ALU source A is the contents of register rX
+        ALUSrcB = 2'b10;  // default ALU source B is 0 (to enable comparison with 0)
+
       end
       JNEZN: begin
         $display("JNEZN");
         // If the contents of register rX is not zero, set program counter to address N
-        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        PcSrc   = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        // We will add rx + 0 so we can use the comparison logic in the ALU
+        alu_op  = ALU_ADD;  // ALU operation is ADD
+        ALUSrcA = 1;  // default ALU source A is the contents of register rX
+        ALUSrcB = 2'b10;  // default ALU source B is 0 (to enable comparison with 0)
       end
       JGTZN: begin
         $display("JGTZN");
         // If the contents of register rX is greater than zero, set program counter to address N
-        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        PcSrc   = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        // We will add rx + 0 so we can use the comparison logic in the ALU
+        alu_op  = ALU_ADD;  // ALU operation is ADD
+        ALUSrcA = 1;  // default ALU source A is the contents of register rX
+        ALUSrcB = 2'b10;  // default ALU source B is 0 (to enable comparison with 0)
       end
       JLTZN: begin
         $display("JLTZN");
         // If the contents of register rX is less than zero, set program counter to address N
-        PcSrc = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        PcSrc   = 2'b10;  // next program counter is sourced from the immediate // CHECK
+        // We will add rx + 0 so we can use the comparison logic in the ALU
+        alu_op  = ALU_ADD;  // ALU operation is ADD
+        ALUSrcA = 1;  // default ALU source A is the contents of register rX
+        ALUSrcB = 2'b10;  // default ALU source B is 0 (to enable comparison with 0)
       end
       CALLN: begin
         $display("CALLN");
@@ -339,7 +362,7 @@ module Controller (
         endcase
         alu_op   = ALU_ADD;
         ALUSrcA  = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        ALUSrcB  = 2'b00;  // default ALU source B is the contents of register rZ
         RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
@@ -347,7 +370,7 @@ module Controller (
         $display("ADDN");
         alu_op   = ALU_ADD;
         ALUSrcA  = 1;  // default ALU source A is the contents of register rX
-        ALUSrcB  = 1;  // ALU source B is the immediate
+        ALUSrcB  = 2'b01;  // ALU source B is the immediate
         RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
@@ -361,7 +384,7 @@ module Controller (
         endcase
         alu_op   = ALU_SUB;
         ALUSrcA  = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        ALUSrcB  = 2'b00;  // default ALU source B is the contents of register rZ
         RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
@@ -369,7 +392,7 @@ module Controller (
         $display("MUL");
         alu_op   = ALU_MUL;
         ALUSrcA  = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        ALUSrcB  = 2'b00;  // default ALU source B is the contents of register rZ
         RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
@@ -377,7 +400,7 @@ module Controller (
         $display("DIV");
         alu_op   = ALU_DIV;
         ALUSrcA  = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        ALUSrcB  = 2'b00;  // default ALU source B is the contents of register rZ
         RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
@@ -385,7 +408,7 @@ module Controller (
         $display("MOD");
         alu_op   = ALU_MOD;
         ALUSrcA  = 0;  // default ALU source A is the contents of register rY
-        ALUSrcB  = 0;  // default ALU source B is the contents of register rZ
+        ALUSrcB  = 2'b00;  // default ALU source B is the contents of register rZ
         RegSrc   = 2'b11;  // register file gets write data from the ALU result
         RegWrite = 1;  // enable write to rx
       end
@@ -404,8 +427,8 @@ module Datapath (
     MemAdrSrc,
     MemDataSrc,
     ALUSrcA,
-    ALUSrcB,
     input logic [1:0] PcSrc,
+    ALUSrcB,
     RegSrc,
     input instr_t instruction_type,
     input alu_op_t alu_op,
@@ -447,7 +470,7 @@ module Datapath (
 
   always_comb
     case (instruction_type)
-      JEQZN:   take_jump = zero;
+      JEQZN: take_jump = zero;
       JNEZN:   take_jump = ~zero;
       JGTZN:   take_jump = ~sign & ~zero;
       JLTZN:   take_jump = sign;
@@ -461,14 +484,14 @@ module Datapath (
     else if (PcSrc[1] & take_jump) PcNext = PcTarget;
     else PcNext = PcPlus2;  // word alignment is 2 bytes
 
-  assign PcTarget = PcSrc[0] ? rf_read_data_1[7:0] * 2 : Imm * 2;  // todo check
+  assign PcTarget = PcSrc[0] ? rf_read_data_1[7:0] : Imm * 2;  // todo check
   assign PcPlus2  = Pc + 2;
 
 
   // cheat to handle status prints, write and halt
 
   always_ff @(posedge clk) begin
-    $display("PC: %d", Pc/2);
+    $display("Instruction number: %d", Pc / 2);
     $display("instruction: %h", Instr);
 
     if (instruction_type == WRITE) $display("write: %b", rf_read_data_1);
@@ -540,9 +563,13 @@ module Datapath (
   );
 
   assign alu_src_a = ALUSrcA ? rf_read_data_1 : rf_read_data_2;
-  assign alu_src_b = ALUSrcB ? ImmExt : rf_read_data_3;
 
-
+  always_comb
+    case (ALUSrcB)
+      2'b0:  alu_src_b = rf_read_data_3;
+      2'b1:  alu_src_b = ImmExt;
+      2'b10: alu_src_b = 0;
+    endcase
 endmodule
 
 module ALU (
