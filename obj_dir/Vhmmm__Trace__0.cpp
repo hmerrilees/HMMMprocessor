@@ -25,13 +25,13 @@ void Vhmmm___024root__trace_chg_sub_0(Vhmmm___024root* vlSelf, VerilatedVcd::Buf
     // Body
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
         bufp->chgSData(oldp+0,(vlSelf->hmmm__DOT__instruction),16);
-        bufp->chgCData(oldp+1,(vlSelf->hmmm__DOT__reg_src_x),2);
+        bufp->chgCData(oldp+1,(vlSelf->hmmm__DOT__rf_src_x),2);
         bufp->chgCData(oldp+2,(vlSelf->hmmm__DOT__pc_src),2);
         bufp->chgCData(oldp+3,(vlSelf->hmmm__DOT__mem_adr_src),2);
         bufp->chgCData(oldp+4,(vlSelf->hmmm__DOT__alu_src_b),2);
         bufp->chgBit(oldp+5,(vlSelf->hmmm__DOT__mem_write));
-        bufp->chgBit(oldp+6,(vlSelf->hmmm__DOT__reg_write_x));
-        bufp->chgBit(oldp+7,(vlSelf->hmmm__DOT__reg_write_y));
+        bufp->chgBit(oldp+6,(vlSelf->hmmm__DOT__rf_write_x));
+        bufp->chgBit(oldp+7,(vlSelf->hmmm__DOT__rf_write_y));
         bufp->chgBit(oldp+8,(vlSelf->hmmm__DOT__mem_data_src));
         bufp->chgBit(oldp+9,(vlSelf->hmmm__DOT__alu_src_a));
         bufp->chgIData(oldp+10,(vlSelf->hmmm__DOT__alu_op),32);
@@ -58,12 +58,12 @@ void Vhmmm___024root__trace_chg_sub_0(Vhmmm___024root* vlSelf, VerilatedVcd::Buf
         bufp->chgSData(oldp+22,(((0U == (0xfU & (IData)(vlSelf->hmmm__DOT__instruction)))
                                   ? 0U : vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
                                  [(0xfU & (IData)(vlSelf->hmmm__DOT__instruction))])),16);
-        bufp->chgSData(oldp+23,(((2U & (IData)(vlSelf->hmmm__DOT__reg_src_x))
-                                  ? ((1U & (IData)(vlSelf->hmmm__DOT__reg_src_x))
+        bufp->chgSData(oldp+23,(((2U & (IData)(vlSelf->hmmm__DOT__rf_src_x))
+                                  ? ((1U & (IData)(vlSelf->hmmm__DOT__rf_src_x))
                                       ? (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)
                                       : (0xffU & ((IData)(2U) 
                                                   + (IData)(vlSelf->hmmm__DOT__datapath__DOT__pc))))
-                                  : ((1U & (IData)(vlSelf->hmmm__DOT__reg_src_x))
+                                  : ((1U & (IData)(vlSelf->hmmm__DOT__rf_src_x))
                                       ? vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
                                      [vlSelf->hmmm__DOT__datapath__DOT__mem_data_address]
                                       : (IData)(vlSelf->hmmm__DOT__datapath__DOT__imm_ext)))),16);
@@ -77,9 +77,8 @@ void Vhmmm___024root__trace_chg_sub_0(Vhmmm___024root* vlSelf, VerilatedVcd::Buf
         bufp->chgCData(oldp+27,((0xfU & ((IData)(vlSelf->hmmm__DOT__instruction) 
                                          >> 4U))),4);
         bufp->chgCData(oldp+28,((0xfU & (IData)(vlSelf->hmmm__DOT__instruction))),4);
-        bufp->chgBit(oldp+29,((0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))));
-        bufp->chgBit(oldp+30,((1U & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
-                                     >> 0xfU))));
+        bufp->chgBit(oldp+29,((0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1))));
+        bufp->chgBit(oldp+30,(vlSelf->hmmm__DOT__datapath__DOT__sign));
         bufp->chgBit(oldp+31,(vlSelf->hmmm__DOT__datapath__DOT__take_jump));
         bufp->chgSData(oldp+32,(vlSelf->hmmm__DOT__datapath__DOT__imm_ext),16);
         bufp->chgSData(oldp+33,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[0]),16);

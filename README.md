@@ -4,8 +4,6 @@ A reference implementation of the Harvey Mudd Miniature Machine (HMMM) which off
 ### Motivation
 This implementation was written to parallel my group's final project for CS123 at Harvey Mudd, which is to write a partially-complete HMMM emulator in tutorial format. 
 
-Strictly speaking, this HMMMSilicon project is not involved with the class. I wrote this code entirely by myself, none of it is getting turned in, and further, my group was unaware of its existence until it was nearly complete. However, the intent was to provide a reference implementation in hardware
-
 The HMMM unit of CS5 is preceded by a cursory introduction to logic design. While the logic design unit is clearly meant to motivate HMMM, HMMM is framed as moving beyond logic/hardware, i.e. "Farewell Wires." 
 
 An enterprising CS5'er will invariably dig into the emulator code in an attempt to correlate the content of both units. Presently, this is somewhat doomed. The profs behind HMMM are sensible, and wrote the emulator in concise and ideomatic Python using advanced features like introspection, not to be understood by CS5ers 6 weeks into their Python careers. The code is interspered with debugging code which is hard for new CS students to pick apart from the functional code. Most critically, because Python is very abstracted from hardware, the emulator (understandably) looks very little like a hardware description. 

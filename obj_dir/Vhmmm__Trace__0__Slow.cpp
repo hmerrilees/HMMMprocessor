@@ -17,13 +17,13 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBit(c+52,"clk", false,-1);
     tracep->declBit(c+53,"reset", false,-1);
     tracep->declBus(c+1,"instruction", false,-1, 15,0);
-    tracep->declBus(c+2,"reg_src_x", false,-1, 1,0);
+    tracep->declBus(c+2,"rf_src_x", false,-1, 1,0);
     tracep->declBus(c+3,"pc_src", false,-1, 1,0);
     tracep->declBus(c+4,"mem_adr_src", false,-1, 1,0);
     tracep->declBus(c+5,"alu_src_b", false,-1, 1,0);
     tracep->declBit(c+6,"mem_write", false,-1);
-    tracep->declBit(c+7,"reg_write_x", false,-1);
-    tracep->declBit(c+8,"reg_write_y", false,-1);
+    tracep->declBit(c+7,"rf_write_x", false,-1);
+    tracep->declBit(c+8,"rf_write_y", false,-1);
     tracep->declBit(c+9,"mem_data_src", false,-1);
     tracep->declBit(c+10,"alu_src_a", false,-1);
     tracep->declBus(c+11,"alu_op", false,-1, 31,0);
@@ -32,11 +32,11 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBus(c+1,"instruction", false,-1, 15,0);
     tracep->declBus(c+11,"alu_op", false,-1, 31,0);
     tracep->declBit(c+6,"mem_write", false,-1);
-    tracep->declBit(c+7,"reg_write_x", false,-1);
-    tracep->declBit(c+8,"reg_write_y", false,-1);
+    tracep->declBit(c+7,"rf_write_x", false,-1);
+    tracep->declBit(c+8,"rf_write_y", false,-1);
     tracep->declBit(c+9,"mem_data_src", false,-1);
     tracep->declBit(c+10,"alu_src_a", false,-1);
-    tracep->declBus(c+2,"reg_src_x", false,-1, 1,0);
+    tracep->declBus(c+2,"rf_src_x", false,-1, 1,0);
     tracep->declBus(c+5,"alu_src_b", false,-1, 1,0);
     tracep->declBus(c+4,"mem_adr_src", false,-1, 1,0);
     tracep->declBus(c+3,"pc_src", false,-1, 1,0);
@@ -46,13 +46,13 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBit(c+52,"clk", false,-1);
     tracep->declBit(c+53,"reset", false,-1);
     tracep->declBit(c+6,"mem_write", false,-1);
-    tracep->declBit(c+7,"reg_write_x", false,-1);
-    tracep->declBit(c+8,"reg_write_y", false,-1);
+    tracep->declBit(c+7,"rf_write_x", false,-1);
+    tracep->declBit(c+8,"rf_write_y", false,-1);
     tracep->declBit(c+9,"mem_data_src", false,-1);
     tracep->declBit(c+10,"alu_src_a", false,-1);
     tracep->declBus(c+3,"pc_src", false,-1, 1,0);
     tracep->declBus(c+5,"alu_src_b", false,-1, 1,0);
-    tracep->declBus(c+2,"reg_src_x", false,-1, 1,0);
+    tracep->declBus(c+2,"rf_src_x", false,-1, 1,0);
     tracep->declBus(c+4,"mem_adr_src", false,-1, 1,0);
     tracep->declBus(c+12,"instruction_type", false,-1, 31,0);
     tracep->declBus(c+11,"alu_op", false,-1, 31,0);
@@ -86,30 +86,28 @@ VL_ATTR_COLD void Vhmmm___024root__trace_init_sub__TOP__0(Vhmmm___024root* vlSel
     tracep->declBus(c+19,"src_a", false,-1, 15,0);
     tracep->declBus(c+20,"src_b", false,-1, 15,0);
     tracep->declBus(c+18,"alu_result", false,-1, 15,0);
-    tracep->declBit(c+30,"zero", false,-1);
-    tracep->declBit(c+31,"sign", false,-1);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("mem ");
     tracep->declBit(c+52,"clk", false,-1);
-    tracep->declBit(c+6,"write_en", false,-1);
-    tracep->declBus(c+13,"instruction_address", false,-1, 7,0);
-    tracep->declBus(c+17,"data_address", false,-1, 7,0);
-    tracep->declBus(c+26,"write_data", false,-1, 15,0);
-    tracep->declBus(c+1,"instruction_data", false,-1, 15,0);
-    tracep->declBus(c+25,"read_data", false,-1, 15,0);
+    tracep->declBit(c+6,"mem_write_en", false,-1);
+    tracep->declBus(c+13,"pc", false,-1, 7,0);
+    tracep->declBus(c+17,"mem_data_address", false,-1, 7,0);
+    tracep->declBus(c+26,"mem_write_data", false,-1, 15,0);
+    tracep->declBus(c+1,"instruction", false,-1, 15,0);
+    tracep->declBus(c+25,"mem_read_data", false,-1, 15,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("rf ");
     tracep->declBit(c+52,"clk", false,-1);
-    tracep->declBus(c+27,"address_1", false,-1, 3,0);
-    tracep->declBus(c+28,"address_2", false,-1, 3,0);
-    tracep->declBus(c+29,"address_3", false,-1, 3,0);
-    tracep->declBit(c+7,"write_en_1", false,-1);
-    tracep->declBit(c+8,"write_en_2", false,-1);
-    tracep->declBus(c+24,"write_data_1", false,-1, 15,0);
-    tracep->declBus(c+18,"write_data_2", false,-1, 15,0);
-    tracep->declBus(c+21,"read_data_1", false,-1, 15,0);
-    tracep->declBus(c+22,"read_data_2", false,-1, 15,0);
-    tracep->declBus(c+23,"read_data_3", false,-1, 15,0);
+    tracep->declBus(c+27,"rf_read_adr_1", false,-1, 3,0);
+    tracep->declBus(c+28,"rf_read_adr_2", false,-1, 3,0);
+    tracep->declBus(c+29,"rf_read_adr_3", false,-1, 3,0);
+    tracep->declBit(c+7,"rf_write_en_1", false,-1);
+    tracep->declBit(c+8,"rf_write_en_2", false,-1);
+    tracep->declBus(c+24,"rf_write_data_1", false,-1, 15,0);
+    tracep->declBus(c+18,"rf_write_data_2", false,-1, 15,0);
+    tracep->declBus(c+21,"rf_read_data_1", false,-1, 15,0);
+    tracep->declBus(c+22,"rf_read_data_2", false,-1, 15,0);
+    tracep->declBus(c+23,"rf_read_data_3", false,-1, 15,0);
     for (int i = 0; i < 16; ++i) {
         tracep->declBus(c+34+i*1,"registers", true,(i+0), 15,0);
     }
@@ -163,13 +161,13 @@ VL_ATTR_COLD void Vhmmm___024root__trace_full_sub_0(Vhmmm___024root* vlSelf, Ver
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
     // Body
     bufp->fullSData(oldp+1,(vlSelf->hmmm__DOT__instruction),16);
-    bufp->fullCData(oldp+2,(vlSelf->hmmm__DOT__reg_src_x),2);
+    bufp->fullCData(oldp+2,(vlSelf->hmmm__DOT__rf_src_x),2);
     bufp->fullCData(oldp+3,(vlSelf->hmmm__DOT__pc_src),2);
     bufp->fullCData(oldp+4,(vlSelf->hmmm__DOT__mem_adr_src),2);
     bufp->fullCData(oldp+5,(vlSelf->hmmm__DOT__alu_src_b),2);
     bufp->fullBit(oldp+6,(vlSelf->hmmm__DOT__mem_write));
-    bufp->fullBit(oldp+7,(vlSelf->hmmm__DOT__reg_write_x));
-    bufp->fullBit(oldp+8,(vlSelf->hmmm__DOT__reg_write_y));
+    bufp->fullBit(oldp+7,(vlSelf->hmmm__DOT__rf_write_x));
+    bufp->fullBit(oldp+8,(vlSelf->hmmm__DOT__rf_write_y));
     bufp->fullBit(oldp+9,(vlSelf->hmmm__DOT__mem_data_src));
     bufp->fullBit(oldp+10,(vlSelf->hmmm__DOT__alu_src_a));
     bufp->fullIData(oldp+11,(vlSelf->hmmm__DOT__alu_op),32);
@@ -194,12 +192,12 @@ VL_ATTR_COLD void Vhmmm___024root__trace_full_sub_0(Vhmmm___024root* vlSelf, Ver
     bufp->fullSData(oldp+23,(((0U == (0xfU & (IData)(vlSelf->hmmm__DOT__instruction)))
                                ? 0U : vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers
                               [(0xfU & (IData)(vlSelf->hmmm__DOT__instruction))])),16);
-    bufp->fullSData(oldp+24,(((2U & (IData)(vlSelf->hmmm__DOT__reg_src_x))
-                               ? ((1U & (IData)(vlSelf->hmmm__DOT__reg_src_x))
+    bufp->fullSData(oldp+24,(((2U & (IData)(vlSelf->hmmm__DOT__rf_src_x))
+                               ? ((1U & (IData)(vlSelf->hmmm__DOT__rf_src_x))
                                    ? (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result)
                                    : (0xffU & ((IData)(2U) 
                                                + (IData)(vlSelf->hmmm__DOT__datapath__DOT__pc))))
-                               : ((1U & (IData)(vlSelf->hmmm__DOT__reg_src_x))
+                               : ((1U & (IData)(vlSelf->hmmm__DOT__rf_src_x))
                                    ? vlSelf->hmmm__DOT__datapath__DOT__mem__DOT__RAM
                                   [vlSelf->hmmm__DOT__datapath__DOT__mem_data_address]
                                    : (IData)(vlSelf->hmmm__DOT__datapath__DOT__imm_ext)))),16);
@@ -213,9 +211,8 @@ VL_ATTR_COLD void Vhmmm___024root__trace_full_sub_0(Vhmmm___024root* vlSelf, Ver
     bufp->fullCData(oldp+28,((0xfU & ((IData)(vlSelf->hmmm__DOT__instruction) 
                                       >> 4U))),4);
     bufp->fullCData(oldp+29,((0xfU & (IData)(vlSelf->hmmm__DOT__instruction))),4);
-    bufp->fullBit(oldp+30,((0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result))));
-    bufp->fullBit(oldp+31,((1U & ((IData)(vlSelf->hmmm__DOT__datapath__DOT__alu_result) 
-                                  >> 0xfU))));
+    bufp->fullBit(oldp+30,((0U == (IData)(vlSelf->hmmm__DOT__datapath__DOT__rf_read_data_1))));
+    bufp->fullBit(oldp+31,(vlSelf->hmmm__DOT__datapath__DOT__sign));
     bufp->fullBit(oldp+32,(vlSelf->hmmm__DOT__datapath__DOT__take_jump));
     bufp->fullSData(oldp+33,(vlSelf->hmmm__DOT__datapath__DOT__imm_ext),16);
     bufp->fullSData(oldp+34,(vlSelf->hmmm__DOT__datapath__DOT__rf__DOT__registers[0]),16);

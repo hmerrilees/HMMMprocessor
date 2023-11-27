@@ -16,18 +16,19 @@ class alignas(VL_CACHE_LINE_BYTES) Vhmmm___024root final : public VerilatedModul
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(reset,0,0);
-    CData/*1:0*/ hmmm__DOT__reg_src_x;
+    CData/*1:0*/ hmmm__DOT__rf_src_x;
     CData/*1:0*/ hmmm__DOT__pc_src;
     CData/*1:0*/ hmmm__DOT__mem_adr_src;
     CData/*1:0*/ hmmm__DOT__alu_src_b;
     CData/*0:0*/ hmmm__DOT__mem_write;
-    CData/*0:0*/ hmmm__DOT__reg_write_x;
-    CData/*0:0*/ hmmm__DOT__reg_write_y;
+    CData/*0:0*/ hmmm__DOT__rf_write_x;
+    CData/*0:0*/ hmmm__DOT__rf_write_y;
     CData/*0:0*/ hmmm__DOT__mem_data_src;
     CData/*0:0*/ hmmm__DOT__alu_src_a;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__pc;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__pc_next;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__mem_data_address;
+    CData/*0:0*/ hmmm__DOT__datapath__DOT__sign;
     CData/*0:0*/ hmmm__DOT__datapath__DOT__take_jump;
     CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;
     CData/*0:0*/ __VactContinue;
