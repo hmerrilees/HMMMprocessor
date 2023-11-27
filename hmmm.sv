@@ -621,8 +621,8 @@ module Datapath (
 
   ALU alu (
       .alu_op(alu_op),
-      .src_a(alu_input_a),
-      .src_b(alu_input_b),
+      .alu_input_a(alu_input_a),
+      .alu_input_b(alu_input_b),
       .alu_result(alu_result)
   );
 
@@ -639,18 +639,18 @@ endmodule
 
 module ALU (
     input alu_op_t alu_op,
-    input logic [15:0] src_a,
-    src_b,
+    input logic [15:0] alu_input_a,
+    alu_input_b,
     output logic [15:0] alu_result
 );
 
   always_comb
     case (alu_op)
-      ALU_ADD: alu_result = src_a + src_b;
-      ALU_SUB: alu_result = src_a - src_b;
-      ALU_MUL: alu_result = src_a * src_b;
-      ALU_DIV: alu_result = src_a / src_b;  // todo check div by 0
-      ALU_MOD: alu_result = src_a % src_b;
+      ALU_ADD: alu_result = alu_input_a + alu_input_b;
+      ALU_SUB: alu_result = alu_input_a - alu_input_b;
+      ALU_MUL: alu_result = alu_input_a * alu_input_b;
+      ALU_DIV: alu_result = alu_input_a / alu_input_b;  // todo check div by 0
+      ALU_MOD: alu_result = alu_input_a % alu_input_b;
     endcase
 
 
