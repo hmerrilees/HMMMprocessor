@@ -47,7 +47,7 @@ module hmmm (
 );
   logic [15:0] instruction;
   logic [1:0] rf_src_x, pc_src, mem_adr_src, alu_src_b;
-  logic mem_write, rf_write_x, rf_write_y, mem_data_src, alu_src_a;
+  logic mem_write, rf_write_en_x, rf_write_en_y, mem_data_src, alu_src_a;
 
   alu_op_t alu_op;
   instr_t  instruction_type;
@@ -58,9 +58,9 @@ module hmmm (
       .alu_src_a(alu_src_a),
       .alu_src_b(alu_src_b),
       .mem_write(mem_write),
-      .rf_write_x(rf_write_x),
+      .rf_write_en_x(rf_write_en_x),
       .rf_src_x(rf_src_x),
-      .rf_write_y(rf_write_y),
+      .rf_write_en_y(rf_write_en_y),
       .mem_adr_src(mem_adr_src),
       .mem_data_src(mem_data_src),
       .pc_src(pc_src),
@@ -71,9 +71,9 @@ module hmmm (
       .clk(clk),
       .reset(reset),
       .mem_write(mem_write),
-      .rf_write_x(rf_write_x),
+      .rf_write_en_x(rf_write_en_x),
       .rf_src_x(rf_src_x),
-      .rf_write_y(rf_write_y),
+      .rf_write_en_y(rf_write_en_y),
       .mem_adr_src(mem_adr_src),
       .mem_data_src(mem_data_src),
       .pc_src(pc_src),
@@ -106,32 +106,32 @@ endmodule
 
 module RegisterFile (
     input logic clk,
-    input logic [3:0] rf_read_adr_1,
-    rf_read_adr_2,
-    rf_read_adr_3,
-    input logic rf_write_en_1,
-    rf_write_en_2,
-    input logic [15:0] rf_write_data_1,
-    rf_write_data_2,
-    output logic [15:0] rf_read_data_1,
-    rf_read_data_2,
-    rf_read_data_3
+    input logic [3:0] rf_adr_x,
+    rf_adr_y,
+    rf_adr_z,
+    input logic rf_write_en_x,
+    rf_write_en_y,
+    input logic [15:0] rf_write_data_x,
+    rf_write_data_y,
+    output logic [15:0] rf_read_data_x,
+    rf_read_data_y,
+    rf_read_data_z
 );
 
   // TODO pretty sure we are allocating flops for r0 needlessly
   logic [15:0] registers[15:0];
 
-  assign rf_read_data_1 = (rf_read_adr_1 != 0) ? registers[rf_read_adr_1] : 16'd0;
-  assign rf_read_data_2 = (rf_read_adr_2 != 0) ? registers[rf_read_adr_2] : 16'd0;
-  assign rf_read_data_3 = (rf_read_adr_3 != 0) ? registers[rf_read_adr_3] : 16'd0;
+  assign rf_read_data_x = (rf_adr_x != 0) ? registers[rf_adr_x] : 16'd0;
+  assign rf_read_data_y = (rf_adr_y != 0) ? registers[rf_adr_y] : 16'd0;
+  assign rf_read_data_z = (rf_adr_z != 0) ? registers[rf_adr_z] : 16'd0;
 
   always_ff @(posedge clk) begin
-    if (rf_write_en_1 & rf_write_en_2 & (rf_read_adr_1 == rf_read_adr_2))
+    if (rf_write_en_x & rf_write_en_y & (rf_adr_x == rf_adr_y))
       $display(
           "WARNING: write to same register in same cycle. Second write channel takes priority."
       );
-    if (rf_write_en_1) registers[rf_read_adr_1] = rf_write_data_1;
-    if (rf_write_en_2) registers[rf_read_adr_2] = rf_write_data_2;
+    if (rf_write_en_x) registers[rf_adr_x] = rf_write_data_x;
+    if (rf_write_en_y) registers[rf_adr_y] = rf_write_data_y;
   end
 endmodule
 
@@ -139,8 +139,8 @@ module Controller (
     input logic [15:0] instruction,
     output alu_op_t alu_op,
     output logic mem_write,
-    rf_write_x,
-    rf_write_y,
+    rf_write_en_x,
+    rf_write_en_y,
     mem_data_src,
     alu_src_a,
     output logic [1:0] rf_src_x,
@@ -229,24 +229,24 @@ module Controller (
   //
   // mem_adr_src:
   //   00: from immediate
-  //   01: from register file (data read 2, rY) 
+  //   01: from register file (data read 2, rf_adr_y) 
   //   10: from alu_result
   //
   // pc_src:
   //    00: from pc + 2
   //    10: from pc_target (immediate)
-  //    11: from pc_target (rX)
+  //    11: from pc_target (rf_adr_x)
   //
   //  mem_data_src: 
   //    0: from ALU result
-  //    1: from register file (data read 1, rX) 
+  //    1: from register file (data read 1, rf_adr_x) 
   //
   //  alu_src_a:
-  //    0: from register file (data read 2, rY)
-  //    1: from register file (data read 1, rX)
+  //    0: from register file (data read 2, rf_adr_y)
+  //    1: from register file (data read 1, rf_adr_x)
   //
   //  alu_src_b: 
-  //    00: from register file (data read 3, rZ)
+  //    00: from register file (data read 3, rf_adr_z)
   //    01: from immediate
   //    10: from 0
   //    11: from 1
@@ -259,19 +259,19 @@ module Controller (
     mem_write = 0;  // disable write to memory
     pc_src = 2'b00;  // pc gets pc + 2
     rf_src_x = 2'b00;  // register file gets write data from immediate
-    rf_write_x = 0;  // disable write to register file
+    rf_write_en_x = 0;  // disable write to register file
     alu_op = ALU_ADD;  // default ALU operation is ADD
-    alu_src_a = 0;  // default ALU source A is the contents of register rX
-    alu_src_b = 2'b00;  // default ALU source B is the contents of register rY
+    alu_src_a = 0;  // default ALU source A is the contents of register rf_adr_x
+    alu_src_b = 2'b00;  // default ALU source B is the contents of register rf_adr_y
 
     $display("\n");
     case (instruction_type)
       LOADR: begin
         $display("LOADR");
-        // Load register rX with data from the address location held in reg. rY
-        mem_adr_src = 2'b1;  // get the memory from address valued rY
-        rf_src_x = 2'b01;  // direct data from memory to rX
-        rf_write_x = 1;  // enable write to rx
+        // Load register rf_adr_x with data from the address location held in reg. rf_adr_y
+        mem_adr_src = 2'b1;  // get the memory from address valued rf_adr_y
+        rf_src_x = 2'b01;  // direct data from memory to rf_adr_x
+        rf_write_en_x = 1;  // enable write to rx
       end
       READ: begin
         $display("READ");
@@ -282,22 +282,22 @@ module Controller (
       end
       WRITE: begin
         $display("WRITE");
-        // Print contents of register rX
-        // rX is already hard-wired into the first address port of the register file
+        // Print contents of register rf_adr_x
+        // rf_adr_x is already hard-wired into the first address port of the register file
         // so we will simply print from the corresponding read_data_1 output
       end
       SETN: begin
         $display("SETN");
-        // Set register rX equal to the integer N (-128 to +127)
-        rf_src_x   = 2'b00;  // direct the immediate to rX
-        rf_write_x = 1;  // enable write to rx
+        // Set register rf_adr_x equal to the integer N (-128 to +127)
+        rf_src_x   = 2'b00;  // direct the immediate to rf_adr_x
+        rf_write_en_x = 1;  // enable write to rx
       end
       LOADN: begin
         $display("LOADN");
-        // Load register rX with the contents of memory address N
+        // Load register rf_adr_x with the contents of memory address N
         mem_adr_src = 2'b0;  // get the memory at the address corresponding to the immediate
-        rf_src_x = 2'b01;  // direct data from memory to rX
-        rf_write_x = 1;  // enable write to rx
+        rf_src_x = 2'b01;  // direct data from memory to rf_adr_x
+        rf_write_en_x = 1;  // enable write to rx
       end
       JUMPN: begin
         // Set program counter to address N
@@ -306,80 +306,80 @@ module Controller (
       end
       JUMPR: begin
         $display("JUMPR");
-        //Set program counter to address in rX
-        pc_src = 2'b11;  // get the next program counter from the contents of rX
+        //Set program counter to address in rf_adr_x
+        pc_src = 2'b11;  // get the next program counter from the contents of rf_adr_x
       end
       JEQZN: begin
         $display("JEQZN");
-        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rX satisfies the condition)
+        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rf_adr_x satisfies the condition)
 
       end
       JNEZN: begin
         $display("JNEZN");
-        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rX satisfies the condition)
+        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rf_adr_x satisfies the condition)
       end
       JGTZN: begin
         $display("JGTZN");
-        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rX satisfies the condition)
+        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rf_adr_x satisfies the condition)
       end
       JLTZN: begin
         $display("JLTZN");
-        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rX satisfies the condition)
+        pc_src = 2'b10;  // next program counter is sourced from the immediate (provided rf_adr_x satisfies the condition)
       end
       CALLN: begin
         $display("CALLN");
-        // Copy addr. of next instr. into rX and then jump to mem. addr. N
+        // Copy addr. of next instr. into rf_adr_x and then jump to mem. addr. N
         pc_src = 2'b10;  // next program counter is sourced from the immediate
-        rf_src_x = 2'b10; // save the instruction address immediately following the CALLN instruction into rX
-        rf_write_x = 1;  // enable write to rX
+        rf_src_x = 2'b10; // save the instruction address immediately following the CALLN instruction into rf_adr_x
+        rf_write_en_x = 1;  // enable write to rf_adr_x
       end
       STOREN: begin
         $display("STOREN");
-        // Store contents of register rX into memory address N
+        // Store contents of register rf_adr_x into memory address N
         mem_adr_src = 2'b00;  // direct the immediate to the memory address
-        mem_data_src = 1;  // direct rX to the memory data input
+        mem_data_src = 1;  // direct rf_adr_x to the memory data input
         mem_write = 1;  // enable write to memory
       end
       STORER: begin
         $display("STORER");
-        // Store contents of register rX into memory address held in reg. rY
-        mem_data_src = 1;  // get data from rX
-        mem_adr_src = 2'b01;  // direct to address at rY
+        // Store contents of register rf_adr_x into memory address held in reg. rf_adr_y
+        mem_data_src = 1;  // get data from rf_adr_x
+        mem_adr_src = 2'b01;  // direct to address at rf_adr_y
         mem_write = 1;  // enable write to memory
       end
       POPR: begin
         $display("POPR");
-        // Load contents of register rX from stack pointed to by register rY: rY -= 1; rX = memory[rY]
+        // Load contents of register rf_adr_x from stack pointed to by register rf_adr_y: rf_adr_y -= 1; rf_adr_x = memory[rf_adr_y]
 
-        // alu_result = rY - 1
-        alu_src_a = 0;  // rY
+        // alu_result = rf_adr_y - 1
+        alu_src_a = 0;  // rf_adr_y
         alu_src_b = 2'b11;  // 1
         alu_op = ALU_SUB;  // sub
 
-        // rY = alu_result
-        rf_write_y = 1;  // enable write to rY (default source from alu_result)
+        // rf_adr_y = alu_result
+        rf_write_en_y = 1;  // enable write to rf_adr_y (default source from alu_result)
 
-        // rX = memory[rY]
-        mem_adr_src = 2'b10;  // get the data at the address corresponding to old rY + 1 (alu_result)
-        rf_src_x = 2'b01;  // direct the memory data to rX
-        rf_write_x = 1;  // enable write to rX
+        // rf_adr_x = memory[rf_adr_y]
+        mem_adr_src = 2'b10;  // get the data at the address corresponding to old rf_adr_y + 1 (alu_result)
+        rf_src_x = 2'b01;  // direct the memory data to rf_adr_x
+        rf_write_en_x = 1;  // enable write to rf_adr_x
 
       end
       PUSHR: begin
         $display("PUSHR");
-        // Store contents of register rX onto stack pointed to by register rY: memory[rY] = rX; rY += 1
+        // Store contents of register rf_adr_x onto stack pointed to by register rf_adr_y: memory[rf_adr_y] = rf_adr_x; rf_adr_y += 1
         // 
-        mem_data_src = 1;  // direct the contents of rX to the memory
-        mem_adr_src = 2'b01;  // write to memory address rY
+        mem_data_src = 1;  // direct the contents of rf_adr_x to the memory
+        mem_adr_src = 2'b01;  // write to memory address rf_adr_y
         mem_write = 1;  // enable write to memory
 
-        // alu_result = rY + 1
-        alu_src_a = 0;  // rY
+        // alu_result = rf_adr_y + 1
+        alu_src_a = 0;  // rf_adr_y
         alu_src_b = 2'b11;  // 1
         alu_op = ALU_ADD;  // add
 
-        // rY = alu_result
-        rf_write_y = 1;  // enable write to rY (default source from alu_result)
+        // rf_adr_y = alu_result
+        rf_write_en_y = 1;  // enable write to rf_adr_y (default source from alu_result)
       end
       ADD, COPY, NOP: begin
         case (instruction_type)
@@ -393,25 +393,25 @@ module Controller (
               "NOP"
           );  // NOP is the case of ADD where a, b, and result are all from/to r0, which is hard-wired to 0
         endcase
-        // alu_result = rY + rZ
-        alu_src_a = 0;  // rY
-        alu_src_b = 2'b00;  // rZ
+        // alu_result = rf_adr_y + rf_adr_z
+        alu_src_a = 0;  // rf_adr_y
+        alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_ADD;
 
-        // rX = alu_result
+        // rf_adr_x = alu_result
         rf_src_x = 2'b11;  // register file gets write data from the ALU result
-        rf_write_x = 1;  // enable write to rx
+        rf_write_en_x = 1;  // enable write to rx
       end
       ADDN: begin  // Copy is a duplicate of ADD which always gets 
         $display("ADDN");  // todo check
-        // alu_result = rX + N
-        alu_src_a = 1;  // rX
+        // alu_result = rf_adr_x + N
+        alu_src_a = 1;  // rf_adr_x
         alu_src_b = 2'b01;  // immediate
         alu_op = ALU_ADD;
 
-        // rX = alu_result
+        // rf_adr_x = alu_result
         rf_src_x = 2'b11;  // register file gets write data from the ALU result
-        rf_write_x = 1;  // enable write to rx
+        rf_write_en_x = 1;  // enable write to rx
       end
       SUB, NEG: begin
         case (instruction_type)
@@ -421,47 +421,47 @@ module Controller (
               "NEG"
           );  // NEG is the case of SUB where source a is taken from r0, which is hard-wired to 0
         endcase
-        // alu_result = rY - rZ
-        alu_src_a = 0;  // rY
-        alu_src_b = 2'b00;  // rZ
+        // alu_result = rf_adr_y - rf_adr_z
+        alu_src_a = 0;  // rf_adr_y
+        alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_SUB;
 
-        // rX = alu_result
+        // rf_adr_x = alu_result
         rf_src_x = 2'b11;  // register file gets write data from the ALU result
-        rf_write_x = 1;  // enable write to rx
+        rf_write_en_x = 1;  // enable write to rx
       end
       MUL: begin
         $display("MUL");
-        // alu_result = rY * rZ
-        alu_src_a = 0;  // rY
-        alu_src_b = 2'b00;  // rZ
+        // alu_result = rf_adr_y * rf_adr_z
+        alu_src_a = 0;  // rf_adr_y
+        alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_MUL;
 
-        // rX = alu_result
+        // rf_adr_x = alu_result
         rf_src_x = 2'b11;  // register file gets write data from the ALU result
-        rf_write_x = 1;  // enable write to rx
+        rf_write_en_x = 1;  // enable write to rx
       end
       DIV: begin
         $display("DIV");
-        // alu_result = rY / rZ
-        alu_src_a = 0;  // rY
-        alu_src_b = 2'b00;  // rZ
+        // alu_result = rf_adr_y / rf_adr_z
+        alu_src_a = 0;  // rf_adr_y
+        alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_DIV;
 
-        // rX = alu_result
+        // rf_adr_x = alu_result
         rf_src_x = 2'b11;  // register file gets write data from the ALU result
-        rf_write_x = 1;  // enable write to rx
+        rf_write_en_x = 1;  // enable write to rx
       end
       MOD: begin
         $display("MOD");
-        // alu_result = rY % rZ
-        alu_src_a = 0;  // rY
-        alu_src_b = 2'b00;  // rZ
+        // alu_result = rf_adr_y % rf_adr_z
+        alu_src_a = 0;  // rf_adr_y
+        alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_MOD;
 
-        // rX = alu_result
+        // rf_adr_x = alu_result
         rf_src_x = 2'b11;  // register file gets write data from the ALU result
-        rf_write_x = 1;  // enable write to rx
+        rf_write_en_x = 1;  // enable write to rx
       end
     endcase
   end
@@ -474,8 +474,8 @@ module Datapath (
     input logic clk,
     reset,
     input logic mem_write,
-    rf_write_x,
-    rf_write_y,
+    rf_write_en_x,
+    rf_write_en_y,
     mem_data_src,
     alu_src_a,
     input logic [1:0] pc_src,
@@ -497,19 +497,19 @@ module Datapath (
       alu_result,
       alu_input_a,
       alu_input_b,
-      rf_read_data_1,
-      rf_read_data_2,
-      rf_read_data_3,
-      rf_write_data_1,
-      rf_write_data_2,
+      rf_read_data_x,
+      rf_read_data_y,
+      rf_read_data_z,
+      rf_write_data_x,
+      rf_write_data_y,
       mem_read_data,
       mem_write_data;
 
-  logic [3:0] rX, rY, rZ;
+  logic [3:0] rf_adr_x, rf_adr_y, rf_adr_z;
 
-  assign rX = instruction[11:8];
-  assign rY = instruction[7:4];
-  assign rZ = instruction[3:0];
+  assign rf_adr_x = instruction[11:8];
+  assign rf_adr_y = instruction[7:4];
+  assign rf_adr_z = instruction[3:0];
   assign immediate = instruction[7:0];
 
   logic zero, sign;
@@ -518,8 +518,8 @@ module Datapath (
   // ============== pc logic ============== 
   always_ff @(posedge clk) pc <= pc_next;
 
-  assign zero = (rf_read_data_1 == 0);
-  assign sign = rf_read_data_1[15];
+  assign zero = (rf_read_data_x == 0);
+  assign sign = rf_read_data_x[15];
 
   logic take_jump;
 
@@ -539,7 +539,7 @@ module Datapath (
     else if (pc_src[1] & take_jump) pc_next = pc_target;
     else pc_next = pc_plus_2;  // word alignment is 2 bytes
 
-  assign pc_target = pc_src[0] ? rf_read_data_1[7:0] : immediate << 1;  // todo check
+  assign pc_target = pc_src[0] ? rf_read_data_x[7:0] : immediate << 1;  // todo check
   assign pc_plus_2 = pc + 2;
 
 
@@ -548,19 +548,18 @@ module Datapath (
   always_ff @(posedge clk) begin
     $display("Instruction number: %d", pc / 2);
     $display("instruction: %h", instruction);
-    $display("zero: %b, sign: %b, take_jump: %b", zero, sign, take_jump);
 
-    if (instruction_type == WRITE) $display("write: %b", rf_read_data_1);
+    if (instruction_type == WRITE) $display("write: %b", rf_read_data_x);
     else if (instruction_type == HALT) begin
       $display("halt");
 
       // dump registers
-      for (int i = 0; i < 15; i++) begin
+      for (int i = 0; i < 16; i++) begin
         $display("reg[%d]: %h", i, rf.registers[i]);
       end
       $display("\n");
       // dump memory
-      for (int i = 0; i < 255; i++) begin
+      for (int i = 0; i < 256; i++) begin
         $display("mem[%d]: %h", i, mem.RAM[i]);
       end
       // done
@@ -583,38 +582,38 @@ module Datapath (
   always_comb
     case (mem_adr_src)
       2'b00: mem_data_address = immediate;
-      2'b01: mem_data_address = rf_read_data_2[7:0];
+      2'b01: mem_data_address = rf_read_data_y[7:0];
       2'b10: mem_data_address = alu_result[7:0];
     endcase
 
-  assign mem_write_data = mem_data_src ? rf_read_data_1 : alu_result;
+  assign mem_write_data = mem_data_src ? rf_read_data_x : alu_result;
 
   logic [15:0] imm_ext;
   assign imm_ext = immediate[7] ? {8'b11111111, immediate} : {8'b0, immediate};
 
   always_comb
     case (rf_src_x)
-      2'b00: rf_write_data_1 = imm_ext;
-      2'b01: rf_write_data_1 = mem_read_data;
-      2'b10: rf_write_data_1 = {8'b0, pc_plus_2};
-      2'b11: rf_write_data_1 = alu_result;
+      2'b00: rf_write_data_x = imm_ext;
+      2'b01: rf_write_data_x = mem_read_data;
+      2'b10: rf_write_data_x = {8'b0, pc_plus_2};
+      2'b11: rf_write_data_x = alu_result;
     endcase
 
-  assign rf_write_data_2 = alu_result;
+  assign rf_write_data_y = alu_result;
 
   // ============== REGISTER FILE logic ============== 
   RegisterFile rf (
       .clk(clk),
-      .rf_read_adr_1(rX),
-      .rf_read_adr_2(rY),
-      .rf_read_adr_3(rZ),
-      .rf_write_en_1(rf_write_x),
-      .rf_write_en_2(rf_write_y),
-      .rf_write_data_1(rf_write_data_1),
-      .rf_write_data_2(rf_write_data_2),
-      .rf_read_data_1(rf_read_data_1),
-      .rf_read_data_2(rf_read_data_2),
-      .rf_read_data_3(rf_read_data_3)
+      .rf_adr_x(rf_adr_x),
+      .rf_adr_y(rf_adr_y),
+      .rf_adr_z(rf_adr_z),
+      .rf_write_en_x(rf_write_en_x),
+      .rf_write_en_y(rf_write_en_y),
+      .rf_write_data_x(rf_write_data_x),
+      .rf_write_data_y(rf_write_data_y),
+      .rf_read_data_x(rf_read_data_x),
+      .rf_read_data_y(rf_read_data_y),
+      .rf_read_data_z(rf_read_data_z)
   );
 
   // ============= ALU logic ============== 
@@ -626,11 +625,11 @@ module Datapath (
       .alu_result(alu_result)
   );
 
-  assign alu_input_a = alu_src_a ? rf_read_data_1 : rf_read_data_2;
+  assign alu_input_a = alu_src_a ? rf_read_data_x : rf_read_data_y;
 
   always_comb
     case (alu_src_b)
-      2'b0:  alu_input_b = rf_read_data_3;
+      2'b0:  alu_input_b = rf_read_data_z;
       2'b1:  alu_input_b = imm_ext;
       2'b10: alu_input_b = 0;
       2'b11: alu_input_b = 1;
@@ -652,7 +651,5 @@ module ALU (
       ALU_DIV: alu_result = alu_input_a / alu_input_b;  // todo check div by 0
       ALU_MOD: alu_result = alu_input_a % alu_input_b;
     endcase
-
-
 endmodule
 

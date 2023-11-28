@@ -21,15 +21,14 @@ class alignas(VL_CACHE_LINE_BYTES) Vhmmm___024root final : public VerilatedModul
     CData/*1:0*/ hmmm__DOT__mem_adr_src;
     CData/*1:0*/ hmmm__DOT__alu_src_b;
     CData/*0:0*/ hmmm__DOT__mem_write;
-    CData/*0:0*/ hmmm__DOT__rf_write_x;
-    CData/*0:0*/ hmmm__DOT__rf_write_y;
+    CData/*0:0*/ hmmm__DOT__rf_write_en_x;
+    CData/*0:0*/ hmmm__DOT__rf_write_en_y;
     CData/*0:0*/ hmmm__DOT__mem_data_src;
     CData/*0:0*/ hmmm__DOT__alu_src_a;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__pc;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__pc_next;
     CData/*7:0*/ hmmm__DOT__datapath__DOT__mem_data_address;
     CData/*0:0*/ hmmm__DOT__datapath__DOT__sign;
-    CData/*0:0*/ hmmm__DOT__datapath__DOT__take_jump;
     CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;
     CData/*0:0*/ __VactContinue;
     SData/*15:0*/ hmmm__DOT__instruction;
@@ -37,8 +36,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vhmmm___024root final : public VerilatedModul
     SData/*15:0*/ hmmm__DOT__datapath__DOT__alu_result;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__alu_input_a;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__alu_input_b;
-    SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_1;
-    SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_2;
+    SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_x;
+    SData/*15:0*/ hmmm__DOT__datapath__DOT__rf_read_data_y;
     SData/*15:0*/ hmmm__DOT__datapath__DOT__imm_ext;
     SData/*15:0*/ __VdfgTmp_h1fe3baef__0;
     IData/*31:0*/ hmmm__DOT__alu_op;
