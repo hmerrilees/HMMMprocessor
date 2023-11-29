@@ -1,6 +1,22 @@
 # HmmmSilicon
 A reference implementation of the Harvey Mudd Miniature Machine (HMMM) which officially exists only as an emulator written in Python. HMMM was written as a simplified instruction set architecture for the CS5 curriculum. To my knowledge, though emulators have been written in other programming languages, this is the first attempt at a hardware implementation/description.
 
+### How to run
+
+1. Specify the program in program.txt in binary format.
+
+2. Build:
+```
+verilator -cc --exe --trace --build --build-jobs 0 sim_main.cpp hmmm.sv
+```
+
+3. Run:
+```
+./obj_dir/VHmmm
+```
+
+TODO:
+Things are still a bit too removed from the hardware. 
 ### Motivation
 This implementation was written to parallel my group's final project for CS123 at Harvey Mudd, which is to write a partially-complete HMMM emulator in tutorial format. 
 
@@ -34,21 +50,4 @@ The implementation is meant to be a guardrail for a python implementation readab
 Additionally, I haven't done anything like this before, so my implementation isn't great.
 
 
-### How to run
 
-1. Specify the program in program.txt in binary format.
-
-2. Build:
-```
-verilator -cc --exe --trace --build --build-jobs 0 sim_main.cpp hmmm.sv
-```
-
-3. Run:
-```
-./obj_dir/VHmmm
-```
-
-
-TODO:
-Variable naming is horrible.
-Things are still a bit too removed from the hardware. Nominally this is because 
