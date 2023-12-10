@@ -335,10 +335,12 @@ def hmmmAssembler(program):
         return machineCode
 
 def assembleProgram():
+    """ Prompt the user for an input file, and
+        assemble it to a file "assemble.txt """
+
     # Read the file based on user input
     # The try statement ensures only an acceptable
     # filename is submitted
-
     readable = False
     while not readable:
       file = input("Input your program filename:")
