@@ -226,7 +226,6 @@ module Controller (
   //	 10: from pc + 2 (next instruction w/o jump)
   //	 11: from ALU result
   //
-  //
   // mem_adr_src:
   //   00: from immediate
   //   01: from register file (data read 2, rf_adr_y) 
@@ -235,7 +234,7 @@ module Controller (
   // pc_src:
   //    00: from pc + 2
   //    10: from pc_target (immediate)
-  //    11: from pc_target (rf_adr_x)
+  //    11: from pc_target (rx)
   //
   //  mem_data_src: 
   //    0: from ALU result
