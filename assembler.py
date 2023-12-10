@@ -333,3 +333,29 @@ def hmmmAssembler(program):
         return None
     else:
         return machineCode
+
+def assembleProgram()
+    # Read the file based on user input
+    # The try statement ensures only an acceptable
+    # filename is submitted
+    readFile = False
+    while not readFile:
+      readFile = True
+      file = input("Input your program filename:")
+      try:
+        # read the file into a program list
+        program = readFile(file)
+      except:
+        print("Please input a valid file")
+        readFile = False
+    # assemble the program
+    program = hmmmAssembler(program)
+
+    # clean up the assembled program to be machine-readable
+    program = programToMachineCode(program)
+
+    # Write assembled program to file
+    file = open("assembled.txt", "w")
+    for triplet in program:
+      file.write(triplet + "\n")
+    file.close()
