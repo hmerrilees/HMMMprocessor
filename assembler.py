@@ -334,20 +334,22 @@ def hmmmAssembler(program):
     else:
         return machineCode
 
-def assembleProgram()
+def assembleProgram():
     # Read the file based on user input
     # The try statement ensures only an acceptable
     # filename is submitted
-    readFile = False
-    while not readFile:
-      readFile = True
+
+    readable = False
+    while not readable:
       file = input("Input your program filename:")
+      readable = True
       try:
-        # read the file into a program list
         program = readFile(file)
       except:
-        print("Please input a valid file")
-        readFile = False
+        readable = False
+
+
+    
     # assemble the program
     program = hmmmAssembler(program)
 
