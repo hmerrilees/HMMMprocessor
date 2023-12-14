@@ -1,6 +1,18 @@
 import sys, string, re
 have_docopt = True
 
+'''
+Adapted from hmmm,v 2.7 2021-01-19 17:04:08-08 geoff
+https://www.cs.hmc.edu/~cs5grad/cs5/hmmm/code/hmmm
+
+All credit of development to Geoff Kuenning et. al
+
+The following is an assembler making use of the assembly functionality
+of the HMMM program. Added is the function assembleProgram, which allows a
+user to fully assemble a selected program.
+'''
+
+
 
 #
 # opcodes encodes the preferred opcode translations.  Each entry is a
@@ -333,3 +345,33 @@ def hmmmAssembler(program):
         return None
     else:
         return machineCode
+
+def assembleProgram():
+    """ Prompt the user for an input file, and
+        assemble it to a file "assemble.txt """
+
+    # Read the file based on user input
+    # The try statement ensures only an acceptable
+    # filename is submitted
+    readable = False
+    while not readable:
+      file = input("Input your program filename:")
+      readable = True
+      try:
+        program = readFile(file)
+      except:
+        readable = False
+
+
+    
+    # assemble the program
+    program = hmmmAssembler(program)
+
+    # clean up the assembled program to be machine-readable
+    program = programToMachineCode(program)
+
+    # Write assembled program to file
+    file = open("assembled.txt", "w")
+    for triplet in program:
+      file.write(triplet + "\n")
+    file.close()
