@@ -1,6 +1,18 @@
 import sys, string, re
 have_docopt = True
 
+'''
+Adapted from hmmm,v 2.7 2021-01-19 17:04:08-08 geoff
+https://www.cs.hmc.edu/~cs5grad/cs5/hmmm/code/hmmm
+
+All credit of development to Geoff Kuenning et. al
+
+The following is an assembler making use of the assembly functionality
+of the HMMM program. Added is the function assembleProgram, which allows a
+user to fully assemble a selected program.
+'''
+
+
 
 #
 # opcodes encodes the preferred opcode translations.  Each entry is a
