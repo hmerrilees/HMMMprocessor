@@ -1,0 +1,32 @@
+
+00 setn r15 42       # set stack pointer to 42
+01 read r1           # start of main, gets input from user
+02 calln r14 07      # calls fib function - jump to line 07
+03 write r13         # print the r1-th Fibonacci number
+04 halt              # end the program
+05 nop               # nops to look nice :)
+06 nop
+07 setn r2 2         # set r2 to 2
+08 sub r2 r1 r2      # calculate and store r1 - r2 (r1-2)
+09 jgtzn r2 14       # if r2 is greater than zero, go to 'else' statement
+10 setn r13 1        # return 1 (set r13 to 1)
+11 jumpr r14         # go to the line stored in r14
+12 nop
+13 nop
+14 pushr r1 r15      # store r1, as it will be needed again as this value
+15 pushr r14 r15     # store r14 for the same reason - it's a precious belonging
+16 addn r1 -1        # calculate r1 - 1
+17 calln r14 06      # call fib using the value of r1-1
+18 popr r14 r15      # retrieve the original r14
+19 popr r1 r15       # retrieve the original r1
+20 copy r3 r13       # store the fib function of r1-1 in r3
+21 pushr r1 r15      # store r1 as a precious belonging
+22 pushr r14 r15     # store r14 as a precious belonging
+23 pushr r3 r15      # now we also store r3, as it will need to be used in this form later
+24 addn r1 -2        # calculate r1 -2
+25 calln r14 06      # call fib using the value of r1-2
+26 popr r3 r15       # retrieve r3
+27 popr r14 r15      # retrieve r14
+28 popr r1 r15       # retrieve r1
+29 add r13 r13 r3    # calculate fib(r1-1) and fib (r1-2): r13 + r3, stored in r13
+30 jumpr r14         # return to the function call location with the return value in r13
