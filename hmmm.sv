@@ -241,8 +241,8 @@ module Controller (
   //    1: from register file (data read 1, rf_adr_x) 
   //
   //  alu_src_a:
-  //    0: from register file (data read 2, rf_adr_y)
-  //    1: from register file (data read 1, rf_adr_x)
+  //    0: from register file (data read 2, rf_adr_x)
+  //    1: from register file (data read 1, rf_adr_y)
   //
   //  alu_src_b: 
   //    00: from register file (data read 3, rf_adr_z)
@@ -351,7 +351,7 @@ module Controller (
         // Load contents of register rf_adr_x from stack pointed to by register rf_adr_y: rf_adr_y -= 1; rf_adr_x = memory[rf_adr_y]
 
         // alu_result = rf_adr_y - 1
-        alu_src_a = 0;  // rf_adr_y
+        alu_src_a = 1;  // rf_adr_y
         alu_src_b = 2'b11;  // 1
         alu_op = ALU_SUB;  // sub
 
@@ -373,7 +373,7 @@ module Controller (
         mem_write = 1;  // enable write to memory
 
         // alu_result = rf_adr_y + 1
-        alu_src_a = 0;  // rf_adr_y
+        alu_src_a = 1;  // rf_adr_y
         alu_src_b = 2'b11;  // 1
         alu_op = ALU_ADD;  // add
 
@@ -393,7 +393,7 @@ module Controller (
           );  // NOP is the case of ADD where a, b, and result are all from/to r0, which is hard-wired to 0
         endcase
         // alu_result = rf_adr_y + rf_adr_z
-        alu_src_a = 0;  // rf_adr_y
+        alu_src_a = 1;  // rf_adr_y
         alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_ADD;
 
@@ -404,7 +404,7 @@ module Controller (
       ADDN: begin  // Copy is a duplicate of ADD which always gets 
         $display("ADDN");  // todo check
         // alu_result = rf_adr_x + N
-        alu_src_a = 1;  // rf_adr_x
+        alu_src_a = 0;  // rf_adr_x
         alu_src_b = 2'b01;  // immediate
         alu_op = ALU_ADD;
 
@@ -421,7 +421,7 @@ module Controller (
           );  // NEG is the case of SUB where source a is taken from r0, which is hard-wired to 0
         endcase
         // alu_result = rf_adr_y - rf_adr_z
-        alu_src_a = 0;  // rf_adr_y
+        alu_src_a = 1;  // rf_adr_y
         alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_SUB;
 
@@ -432,7 +432,7 @@ module Controller (
       MUL: begin
         $display("MUL");
         // alu_result = rf_adr_y * rf_adr_z
-        alu_src_a = 0;  // rf_adr_y
+        alu_src_a = 1;  // rf_adr_y
         alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_MUL;
 
@@ -443,7 +443,7 @@ module Controller (
       DIV: begin
         $display("DIV");
         // alu_result = rf_adr_y / rf_adr_z
-        alu_src_a = 0;  // rf_adr_y
+        alu_src_a = 1;  // rf_adr_y
         alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_DIV;
 
@@ -454,7 +454,7 @@ module Controller (
       MOD: begin
         $display("MOD");
         // alu_result = rf_adr_y % rf_adr_z
-        alu_src_a = 0;  // rf_adr_y
+        alu_src_a = 1;  // rf_adr_y
         alu_src_b = 2'b00;  // rf_adr_z
         alu_op = ALU_MOD;
 
@@ -624,7 +624,7 @@ module Datapath (
       .alu_result(alu_result)
   );
 
-  assign alu_input_a = alu_src_a ? rf_read_data_x : rf_read_data_y;
+  assign alu_input_a = alu_src_a ? rf_read_data_y : rf_read_data_x;
 
   always_comb
     case (alu_src_b)
