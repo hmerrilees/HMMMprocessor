@@ -59,11 +59,7 @@ def animate(i):
     title = f"Multiplexer Animation (Frame {i + 1}/{num_frames})"
     ax.set_title(title)
 
-# Create figure and axis
 fig, ax = plt.subplots()
 
-# Initialize animation
 animation = FuncAnimation(fig, animate, frames=num_frames, interval=1000 / fps)
-
-# Show animation
 plt.show()
