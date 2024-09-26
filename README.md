@@ -15,7 +15,7 @@ verilator -cc --exe --trace --build --build-jobs 0 sim_main.cpp hmmm.sv
 ```
 ./obj_dir/VHmmm
 ```
-## Statement of Motivation (What we told our CS123 Prof to let us do this.)
+## Statement of Motivation (i.e. What we told our CS123 Prof to let us do this.)
 The HMMM unit of CS5 is preceded by a cursory introduction to logic design. While the logic design unit is clearly meant to motivate HMMM, HMMM is framed as moving beyond logic/hardware, i.e. "Farewell Wires." 
 
 An enterprising CS5'er will invariably dig into the emulator code in an attempt to correlate the content of both units. Presently, this is somewhat doomed. The Profs behind HMMM are sensible, and wrote the emulator in concise and ideomatic Python using advanced features like introspection, not to be understood by CS5ers 6 weeks into their Python careers. The code is interspered with debugging code which is hard for new CS students to pick apart from the functional code. Most critically, because Python is very abstracted from hardware, the emulator (understandably) looks very little like a hardware description. 
@@ -29,4 +29,4 @@ I realized that if we attempted a CS5-interpretable emulator directly, we would 
 To be faithful to the hardware, we need an actual HMMM hardware description to emulate. Again, this did not previously exist, so I made it.
 
 ## Limitations
-I wrote the hardware implementation while in attendance of two very noisy NCAA basketball games, so some errors may have slipped by. If you find one, submit a PR or let me know!
+I wrote the hardware implementation while in attendance of two very noisy NCAA basketball games, so some errors may have slipped in. If you find one, submit a PR or let me know!
